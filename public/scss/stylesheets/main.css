@@ -1,0 +1,10 @@
+/* line 1, ../sass/main.scss */
+.navbar-nav {
+  width: 100%;
+  text-align: center;
+}
+/* line 4, ../sass/main.scss */
+.navbar-nav > li {
+  float: none;
+  display: inline-block;
+}

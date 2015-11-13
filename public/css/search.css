@@ -1,0 +1,82 @@
+/* line 4, ../sass/search.scss */
+body {
+  /*
+  .matome-titile::after{
+  	letter-spacing: .10em;
+  	content:"...";
+  	position:absolute;
+  	bottom:0;
+  	right:0;
+  	padding:0 10px 5px 45px;
+  	background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(white), color-stop(45%, white));
+  	background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+  	background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+  	background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+  	background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+  }
+  */
+}
+/* line 7, ../sass/search.scss */
+body .list-group .list-group-item {
+  padding: 20px 0 0 0;
+}
+/* line 9, ../sass/search.scss */
+body .list-group .list-group-item .no-padding {
+  padding: 0;
+}
+/* line 11, ../sass/search.scss */
+body .list-group .list-group-item .no-padding .matome-titile {
+  display: block;
+  /* Fallback for non-webkit */
+  display: -webkit-box;
+  height: 72.8px;
+  /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: 26px;
+  line-height: 1.4;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -moz-line-clamp: 2;
+  -moz-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 5px;
+}
+/* line 29, ../sass/search.scss */
+body .list-group .list-group-item .no-padding .mobile-size.title {
+  height: 52px;
+  /* Fallback for non-webkit */
+  font-size: 90%;
+}
+/* line 33, ../sass/search.scss */
+body .list-group .list-group-item .no-padding .mobile-size.views, body .list-group .list-group-item .no-padding .mobile-size.date-time {
+  font-size: 65%;
+  text-align: left;
+}
+/* line 39, ../sass/search.scss */
+body .list-group .list-group-item .thumbnail {
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 120px;
+  max-height: 120px;
+}
+/* line 65, ../sass/search.scss */
+body .col-xs-offset-1.reset-col-xs-offset-1 {
+  margin-left: 3%;
+}
+/* line 70, ../sass/search.scss */
+body .row.reset-margin-right {
+  margin-right: 0px;
+}
+/* line 75, ../sass/search.scss */
+body .padding-top-10 {
+  padding-top: 10px;
+}
+/* line 78, ../sass/search.scss */
+body .vertical-center {
+  margin: 40px 0 0 0;
+}
+/* line 81, ../sass/search.scss */
+body .padding-5 {
+  padding: 5px;
+}

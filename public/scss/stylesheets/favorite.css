@@ -1,0 +1,21 @@
+/* line 1, ../sass/favorite.scss */
+.gray-color {
+  color: gray;
+  cursor: pointer;
+}
+
+/* line 5, ../sass/favorite.scss */
+.fav-list {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* line 9, ../sass/favorite.scss */
+.list-group-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* line 12, ../sass/favorite.scss */
+h6 {
+  font-weight: normal;
+}

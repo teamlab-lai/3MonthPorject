@@ -1,0 +1,5 @@
+{{ elements.getTopicTabs() }}
+
+<div align="center">
+    {{ content() }}
+</div>

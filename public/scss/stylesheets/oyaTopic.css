@@ -1,0 +1,33 @@
+/* line 1, ../sass/oyaTopic.scss */
+body {
+  background-color: #F5F5F5;
+}
+/* line 5, ../sass/oyaTopic.scss */
+body .row .color-white {
+  background-color: white;
+}
+/* line 8, ../sass/oyaTopic.scss */
+body .row .margin-top-20 {
+  margin-top: 20px;
+}
+/* line 11, ../sass/oyaTopic.scss */
+body .row .margin-top-10 {
+  margin-top: 10px;
+}
+/* line 14, ../sass/oyaTopic.scss */
+body .row .padding-10 {
+  padding: 10px;
+}
+/* line 17, ../sass/oyaTopic.scss */
+body .row .have-border {
+  border: solid 1px #ddd;
+  padding: 10px;
+}
+/* line 21, ../sass/oyaTopic.scss */
+body .row .padding-bottom-10 {
+  padding-bottom: 10px;
+}
+/* line 24, ../sass/oyaTopic.scss */
+body .row .margin-bottom-10 {
+  margin-bottom: 10px;
+}

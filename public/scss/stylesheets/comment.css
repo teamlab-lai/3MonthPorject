@@ -1,0 +1,75 @@
+/* line 1, ../sass/comment.scss */
+body {
+  padding-top: 50px;
+}
+/* line 3, ../sass/comment.scss */
+body .color-black {
+  color: #ecf0f1;
+  background-color: #333;
+}
+/* line 8, ../sass/comment.scss */
+body .thumbnail.lg {
+  min-width: 50px;
+  min-height: 50px;
+  height: auto;
+  overflow: auto;
+}
+/* line 13, ../sass/comment.scss */
+body .thumbnail.lg .short-img {
+  max-width: 150px;
+  max-height: 150px;
+}
+/* line 21, ../sass/comment.scss */
+body .thumbnail.sm {
+  margin-top: 20px;
+}
+/* line 23, ../sass/comment.scss */
+body .thumbnail.sm.sm-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 31, ../sass/comment.scss */
+body .topic-title.visible-xs {
+  font-size: 85%;
+}
+/* line 35, ../sass/comment.scss */
+body .view-count, body .fav-count {
+  font-size: 80%;
+}
+/* line 41, ../sass/comment.scss */
+body .no-padding {
+  padding: 0px;
+}
+/* line 45, ../sass/comment.scss */
+body .update-time .visible-xs {
+  font-size: 70%;
+}
+/* line 49, ../sass/comment.scss */
+body .padding-top-down-10 {
+  padding: 10px 0px 10px 0px;
+}
+/* line 52, ../sass/comment.scss */
+body .resize-disable {
+  resize: none;
+}
+/* line 55, ../sass/comment.scss */
+body .btn-file {
+  position: relative;
+  overflow: hidden;
+}
+/* line 59, ../sass/comment.scss */
+body .btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}

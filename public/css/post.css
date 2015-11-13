@@ -1,0 +1,60 @@
+/* line 1, ../sass/post.scss */
+.hidden {
+  visibility: hidden;
+}
+
+/* line 4, ../sass/post.scss */
+.padding {
+  padding: 10px;
+}
+
+/* line 7, ../sass/post.scss */
+.no-padding {
+  padding: 0;
+}
+
+/* line 10, ../sass/post.scss */
+.resize-disable {
+  resize: none;
+}
+
+/* line 13, ../sass/post.scss */
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+/* line 17, ../sass/post.scss */
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+/* line 32, ../sass/post.scss */
+.thumbnail {
+  min-width: 50px;
+  min-height: 50px;
+  height: auto;
+  overflow: auto;
+}
+/* line 37, ../sass/post.scss */
+.thumbnail img {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+/* line 42, ../sass/post.scss */
+.sm-size {
+  font-size: 80%;
+}

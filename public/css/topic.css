@@ -1,0 +1,86 @@
+/* line 1, ../sass/topic.scss */
+body {
+  padding-top: 50px;
+}
+/* line 4, ../sass/topic.scss */
+body .color-black {
+  color: #ecf0f1;
+  background-color: #333;
+}
+/* line 8, ../sass/topic.scss */
+body .color-gray {
+  background-color: #F5F5F5;
+}
+/* line 11, ../sass/topic.scss */
+body .thumbnail {
+  margin-top: 20px;
+}
+/* line 13, ../sass/topic.scss */
+body .thumbnail.sm-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 19, ../sass/topic.scss */
+body .topic-title.visible-xs {
+  font-size: 85%;
+}
+/* line 23, ../sass/topic.scss */
+body .view-count, body .fav-count {
+  font-size: 80%;
+}
+/* line 29, ../sass/topic.scss */
+body .no-padding {
+  padding: 0px;
+}
+/* line 33, ../sass/topic.scss */
+body .glyphicon.float-type {
+  float: left;
+  margin-right: 5px;
+}
+/* line 40, ../sass/topic.scss */
+body .update-time .visible-xs {
+  font-size: 70%;
+}
+/* line 44, ../sass/topic.scss */
+body .vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+/* line 50, ../sass/topic.scss */
+body .a-container {
+  text-decoration: none;
+  color: black;
+}
+/* line 55, ../sass/topic.scss */
+body p.sm-size {
+  font-size: 90% !important;
+}
+/* line 59, ../sass/topic.scss */
+body .is-fav {
+  color: yellow;
+}
+/* line 62, ../sass/topic.scss */
+body .padding-top-down-10 {
+  padding: 10px 0px 10px 0px;
+}
+/* line 65, ../sass/topic.scss */
+body .font-gray {
+  color: #7f8c8d;
+}
+/* line 68, ../sass/topic.scss */
+body .small-size {
+  font-size: 70%;
+}
+/* line 71, ../sass/topic.scss */
+body .md-size {
+  font-size: 80%;
+}
+/* line 74, ../sass/topic.scss */
+body .comment-items:hover {
+  cursor: pointer;
+}
+/* line 77, ../sass/topic.scss */
+body .video-size-sm {
+  width: 80%;
+}

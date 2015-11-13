@@ -1,0 +1,84 @@
+$font-size: 26px;
+$line-height: 1.4;
+$lines-to-show: 2;
+body{
+
+	.list-group{
+		.list-group-item{
+		    padding: 20px 0 0 0;
+		    .no-padding{
+				padding: 0;
+				.matome-titile{
+				  display: block; /* Fallback for non-webkit */
+				  display: -webkit-box;
+				 // max-width: 400px;
+				  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+				  margin: 0 auto;
+				  font-size: $font-size;
+				  line-height: $line-height;
+				  -webkit-line-clamp: $lines-to-show;
+				  -webkit-box-orient: vertical;
+				  -moz-line-clamp: $lines-to-show;
+				  -moz-box-orient: vertical;
+				  overflow: hidden;
+				  text-overflow: ellipsis;
+				 	padding-right: 5px;
+
+				}
+				.mobile-size{
+				    &.title{
+				    	height: $font-size*$lines-to-show; /* Fallback for non-webkit */
+						font-size: 90%;
+				    }
+				    &.views, &.date-time{
+						font-size: 65%;
+						text-align: left;
+				    }
+				}
+			}
+			.thumbnail{
+				min-width: 50px;
+				min-height: 50px;
+				max-width: 120px;
+				max-height: 120px;
+				img{
+			    }
+			}
+		}
+	}
+	/*
+	.matome-titile::after{
+		letter-spacing: .10em;
+		content:"...";
+		position:absolute;
+		bottom:0;
+		right:0;
+		padding:0 10px 5px 45px;
+		background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(white), color-stop(45%, white));
+		background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+		background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+		background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+		background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+	}
+	*/
+	.col-xs-offset-1{
+		&.reset-col-xs-offset-1{
+			margin-left:3%;
+		}
+	}
+	.row{
+		&.reset-margin-right{
+			margin-right: 0px;
+		}
+
+	}
+	.padding-top-10{
+		padding-top: 10px;
+	}
+	.vertical-center{
+	    margin: 40px 0 0 0;
+	}
+	.padding-5{
+		padding: 5px;
+	}
+}
