@@ -62,7 +62,7 @@
 		<?php if ($topic->user_picture_url == null) { ?>
 		<?php $topic->user_picture_url = '/matome/img/default-page.png'; ?>
 		<?php } ?>
-		<?php echo $this->tag->linkTo(array('topic/oyaTopic/' . $topic->page_id, 'class' => 'a-container', '<div class="col-xs-6 no-padding vertical-center">
+		<?php echo $this->tag->linkTo(array('topic/oyaMatome/' . $topic->page_id, 'class' => 'a-container', '<div class="col-xs-6 no-padding vertical-center">
 				 		<div class="col-xs-4 no-padding vertical-center">
 							<div href = "#" class = "thumbnail sm-margin">
 							<img class="center-pic" src = ' . $topic->user_picture_url . ' alt = "">
