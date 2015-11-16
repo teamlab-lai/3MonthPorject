@@ -85,7 +85,7 @@
 <div class="row">
 	<div class="list-group">
 	<?php foreach ($page->items as $comment) { ?>
-		<div class="list-group-item comment-items" data-link='<?php echo $this->url->get('detail/index/' . $comment->comment_id); ?>' >
+		<div class="list-group-item comment-items" data-link='<?php echo $this->url->get('topic/koMatome/' . $comment->comment_id); ?>' >
 			<div class="row text-center">
 			<?php if ($comment->url_comment != null) { ?>
 				<?php echo $this->tag->linkTo(array($comment->url_comment, 'class' => 'font-gray md-size', $comment->url_comment, false)); ?>

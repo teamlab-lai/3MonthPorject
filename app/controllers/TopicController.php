@@ -173,4 +173,14 @@ class TopicController extends ControllerBase
         }
 
     }
+
+    /**
+     * 子まとめトピック
+     * @param  string $page_id まとめトピックID
+     */
+    public function koMatomeAction($page_id){
+
+
+    }
+
 }

@@ -92,7 +92,7 @@
 <div class="row">
 	<div class="list-group">
 	{% for comment in page.items %}
-		<div class="list-group-item comment-items" data-link='{{ url('detail/index/' ~ comment.comment_id) }}' >
+		<div class="list-group-item comment-items" data-link='{{ url('topic/koMatome/' ~ comment.comment_id) }}' >
 			<div class="row text-center">
 			{% if comment.url_comment != null  %}
 				{{ link_to(comment.url_comment ,"class":"font-gray md-size", comment.url_comment ,false )  }}

@@ -10,7 +10,7 @@ use Phalcon\Mvc\User\Component;
 class Elements extends Component
 {
     private $_hiddenMenuController = array(
-            'search','post','topic','comment','location','detail'
+            'search','post','topic','comment','location'
         );
 
     private $_hiddenSubMenuController = array(
@@ -25,19 +25,19 @@ class Elements extends Component
                 'caption' => 'ホーム',
                 'action' => 'index',
                 'icon'=>'pe-7s-home',
-                'hidden_controller'=>array('post','topic','comment','location','detail'),
+                'hidden_controller'=>array('post','topic','comment','location'),
             ),
             'favorite' => array(
                 'caption' => 'お気に入り',
                 'action' => 'index',
                 'icon'=>'pe-7s-like',
-                'hidden_controller'=>array('session','post','topic','comment','location','detail'),
+                'hidden_controller'=>array('session','post','topic','comment','location'),
             ),
             'session' => array(
                 'caption' => 'ログイン',
                 'action' => 'index',
                 'icon'=>'pe-7s-lock',
-                'hidden_controller'=>array('post','topic','comment','location','detail'),
+                'hidden_controller'=>array('post','topic','comment','location'),
             ),
         ),
     );
@@ -48,7 +48,7 @@ class Elements extends Component
                 'caption' => '再読み込み',
                 'action' => 'index',
                 'icon'=>'glyphicon glyphicon-refresh',
-                'hidden_controller'=>array('session','management','favorite','search','topic','errors','post','comment','location','detail'),
+                'hidden_controller'=>array('session','management','favorite','search','topic','errors','post','comment','location'),
             ),
             'back'=>array(
                 'caption' => '戻る',
@@ -65,7 +65,7 @@ class Elements extends Component
                 'caption' => '投稿',
                 'action' => 'index',
                 'icon'=>'glyphicon glyphicon-pencil',
-                'hidden_controller'=>array('session','management','favorite','search','topic','errors','post','comment','location','detail'),
+                'hidden_controller'=>array('session','management','favorite','search','topic','errors','post','comment','location'),
             ),
             'search' => array(
                 'caption' => '検索',
@@ -76,7 +76,7 @@ class Elements extends Component
             'session' => array(
                 'caption' => 'ログアウト',
                 'action' => 'logout',
-                'hidden_controller'=>array('index','session','favorite','search','topic','errors','post','comment','location','detail'),
+                'hidden_controller'=>array('index','session','favorite','search','topic','errors','post','comment','location'),
             ),
         ),
     );
