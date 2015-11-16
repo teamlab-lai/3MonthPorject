@@ -62,7 +62,7 @@
 		{% if topic.user_picture_url == null  %}
 		{% set topic.user_picture_url = '/matome/img/default-page.png' %}
 		{% endif %}
-		{{ link_to("topic/oyaTopic/" ~ topic.page_id,
+		{{ link_to("topic/oyaMatome/" ~ topic.page_id,
 					'class':"a-container",
 					'<div class="col-xs-6 no-padding vertical-center">
 				 		<div class="col-xs-4 no-padding vertical-center">

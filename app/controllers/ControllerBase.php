@@ -56,12 +56,15 @@ class ControllerBase extends Controller
                     'delete',
                 ),
             'errors',
+            'comment',
+            /*
             'comment'=>array(
                     'createUrl',
                     'createPictur',
                     'createVideo',
                     'createText',
                 ),
+            */
         );
 
         $breadcrumb = $this->session->get('breadcrumb');

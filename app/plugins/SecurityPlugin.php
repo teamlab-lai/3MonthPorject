@@ -47,7 +47,7 @@ class SecurityPlugin extends Plugin
 				'post'		 => array('index','create','delete','doDelete'),
 				'comment'	 => array('index','picture','video','text','createUrl','createPicture','createVideo','createText'),
 				'detail'	 => array('index'),
-				'topic'		 => array('oyaTopic'),
+				'topic'		 => array('oyaMatome'),
 				'location'	 => array('index'),
 			);
 			foreach ($privateResources as $resource => $actions) {

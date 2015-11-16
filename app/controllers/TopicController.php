@@ -91,8 +91,8 @@ class TopicController extends ControllerBase
      * 親まとめトピック
      * @param  string $page_id まとめトピックID
      */
-    public function oyaTopicAction($page_id){
-    	$this->assets->addCss('css/oyaTopic.css');
+    public function oyaMatomeAction($page_id){
+    	$this->assets->addCss('css/oyaMatome.css');
 
         if(!isset($page_id) || $page_id == null){
             $this->response->redirect('errors/show401');
