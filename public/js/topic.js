@@ -97,7 +97,33 @@ function delMatome(page_id){
 			result = $.parseJSON(result);
 			var status = result.status;
 			if(status != 'OK'){
-				alert(status.messages);
+				alert(result.messages);
+				return;
+			}else{
+				window.location.replace(result.redirect_url);
+			}
+
+		},
+		error: function() {
+			alert('エラーがありますから、もう一度お願いします。');
+		},
+
+	});
+}
+
+function delComment(comment_id){
+	$.ajax({
+		url: '/matome/comment/delete',
+		data: {
+			'comment_id':comment_id
+		},
+		type: 'POST',
+		success: function(result) {
+
+			result = $.parseJSON(result);
+			var status = result.status;
+			if(status != 'OK'){
+				alert(result.messages);
 				return;
 			}else{
 				window.location.replace(result.redirect_url);

@@ -103,7 +103,12 @@
                         <iframe class="embed-responsive-item" src="<?php echo $comment->video_url; ?>"></iframe>
                     </div>
 				<?php } elseif ($comment->video_type == 'website') { ?>
-					<?php echo $this->tag->linkTo(array($comment->video_url, 'class' => 'font-gray md-size', $comment->video_title . 'リング', false)); ?>
+					<?php if ($comment->video_thumbnail_url != null) { ?>
+						<div href = "#" class = "thumbnail">
+							<img class="center-pic" src = <?php echo $comment->video_thumbnail_url; ?> alt = "">
+						</div>
+					<?php } ?>
+					<?php echo $this->tag->linkTo(array($comment->video_url, 'class' => 'font-gray md-size', 'リング', false)); ?>
 				<?php } else { ?>
 					<div class="col-xs-12">
 						<a href="javascript:void(0);" class="thumbnail">
@@ -112,7 +117,7 @@
 					</div>
 				<?php } ?>
 			<?php } elseif ($comment->text_comment != null) { ?>
-				<h6><?php echo $comment->text_comment; ?></h6>
+				<small><?php echo $comment->text_comment; ?></small>
 			<?php } else { ?>
 
 			<?php } ?>

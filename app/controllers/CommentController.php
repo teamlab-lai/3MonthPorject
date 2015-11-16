@@ -43,7 +43,7 @@ class CommentController extends ControllerBase
             return;
         }
 
-    	//ユーザに選択されたタイトル情報
+    	//ユーザーに選択されたタイトル情報
     	$topic = Topics::findFirst(
 			array(
 			'(page_id = :page_id:)',
@@ -71,7 +71,7 @@ class CommentController extends ControllerBase
             return;
         }
 
-    	//ユーザに選択されたタイトル情報
+    	//ユーザーに選択されたタイトル情報
     	$topic = Topics::findFirst(
 			array(
 			'(page_id = :page_id:)',
@@ -100,7 +100,7 @@ class CommentController extends ControllerBase
             return;
         }
 
-    	//ユーザに選択されたタイトル情報
+    	//ユーザーに選択されたタイトル情報
     	$topic = Topics::findFirst(
 			array(
 			'(page_id = :page_id:)',
@@ -128,7 +128,7 @@ class CommentController extends ControllerBase
             return;
         }
 
-    	//ユーザに選択されたタイトル情報
+    	//ユーザーに選択されたタイトル情報
     	$topic = Topics::findFirst(
 			array(
 			'(page_id = :page_id:)',
@@ -253,7 +253,7 @@ class CommentController extends ControllerBase
      */
     private function updateTopicCommentCount($page_id){
 
-    	//ユーザに選択されたタイトル情報
+    	//ユーザーに選択されたタイトル情報
     	$topic = Topics::findFirst(
 			array(
 			'(page_id = :page_id:)',
@@ -592,5 +592,137 @@ class CommentController extends ControllerBase
 
     	$this->flash->success('投稿しました');
   		$this->response->redirect('topic/index/'.$page_id);
+    }
+
+    /**
+     * コメントを削除する機能
+     * @return array REST API スタイル答え
+     */
+    public function deleteAction(){
+    	$this->view->disable();
+    	$request = new Request();
+    	$response = new Response();
+    	$auth = $this->getAuth();
+    	$del_process = false;
+    	if ($request->isPost()) {
+			if ($request->isAjax()) {
+				$comment_id = $this->request->getPost("comment_id");
+
+				if($comment_id != null){
+					try{
+						//もしユーザーはadminレベル
+						if($auth['isAdmin'] == true){
+							$this->fb->setDefaultAccessToken($auth['adminToken']);
+						}else{
+							$this->fb->setDefaultAccessToken($auth['token']);
+						}
+
+						//FBでコメントを削除します
+						$delete_status = $this->fb->delete($comment_id);
+
+						$delete_status = $delete_status->getDecodedBody();
+
+						if($delete_status['success'] == true){
+
+							$comment = Comments::findFirst(
+					            array(
+					            '(comment_id = :comment_id:)',
+					            'bind' => array('comment_id' => $comment_id),
+					            )
+					        );
+							if($comment != false){
+								$page_id = $comment->page_id;
+								//DBでコメントを削除します
+								$del_process = $this->doDeleteAction($comment_id);
+							}
+
+						}
+
+					}catch(Facebook\Exceptions\FacebookResponseException $e) {
+						//var_dump($e->getMessage());
+			        }catch(Facebook\Exceptions\FacebookSDKException $e) {
+			        	//var_dump($e->getMessage());
+			        }
+				}
+			}
+		}else{
+    		 $response->setJsonContent(
+	            array(
+	                'status'   => 'ERROR',
+                	'messages' => 'POST方はなければなりません。'
+	            )
+	        );
+    		return $response;
+		}
+
+		if($del_process == true){
+			$response->setJsonContent(
+	            array(
+	                'status'   => 'OK',
+	                'redirect_url' => "http://" . $_SERVER['SERVER_NAME'] . $this->url->getStatic('topic/index/'.$page_id),
+	            )
+	        );
+		}else{
+			$response->setJsonContent(
+	            array(
+	                'status'   => 'ERROR',
+	                'messages' => 'エラーがありますから、もう一度お願いします。'
+	            )
+	        );
+		}
+		return $response;
+    }
+
+    /**
+     * DBにコメントを削除する機能
+     * @param  String $comment_id コメントID
+     * @return boolean
+     */
+    public function doDeleteAction($comment_id){
+
+    	try{
+    		$transactionManager = new TransactionManager();
+  			$transaction = $transactionManager->get();
+
+  			$comment = Comments::findFirst(
+	            array(
+	            '(comment_id = :comment_id:)',
+	            'bind' => array('comment_id' => $comment_id),
+	            )
+	        );
+
+  			if($comment != false){
+
+  				$page_id = $comment->page_id;
+
+	  			$comment->setTransaction($transaction);
+	  			//トッピングを削除すます
+				if(!$comment->delete()){
+					$transaction->rollback("コメントを削除できません。");
+				}
+			}
+
+			if( isset($page_id) && $page_id != null){
+				$topic = Topics::findFirst(
+					array(
+					'(page_id = :page_id:)',
+					'bind' => array('page_id' => $page_id),
+					)
+				);
+				$topic->setTransaction($transaction);
+				$topic->comment_count -- ;
+				if (!$topic->save()) {
+					$transaction->rollback("トッピングのデータを変更できません。");
+	        	}
+			}
+
+
+			$transaction->commit();
+			return true;
+
+    	}catch (Phalcon\Mvc\Model\Transaction\Failed $e) {
+    		//var_dump($e->getMessage());
+    		return false;
+		}
     }
 }

@@ -110,7 +110,12 @@
                         <iframe class="embed-responsive-item" src="{{ comment.video_url }}"></iframe>
                     </div>
 				{% elseif comment.video_type == 'website' %}
-					{{ link_to(comment.video_url ,"class":"font-gray md-size", comment.video_title ~ "リング" ,false )  }}
+					{% if comment.video_thumbnail_url != null %}
+						<div href = "#" class = "thumbnail">
+							<img class="center-pic" src = {{ comment.video_thumbnail_url }} alt = "">
+						</div>
+					{% endif %}
+					{{ link_to(comment.video_url ,"class":"font-gray md-size", "リング" ,false )  }}
 				{% else %}
 					<div class="col-xs-12">
 						<a href="javascript:void(0);" class="thumbnail">
@@ -119,7 +124,7 @@
 					</div>
 				{% endif  %}
 			{% elseif comment.text_comment != null %}
-				<h6>{{ comment.text_comment }}</h6>
+				<small>{{ comment.text_comment }}</small>
 			{% else %}
 
 			{% endif %}

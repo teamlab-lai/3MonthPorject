@@ -7,8 +7,8 @@
 				<button type="button" class="btn btn-default  btn-xs pull-right" data-toggle="modal" data-target="#confirm-delete" aria-label="Left Align">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				</button>
-		{% endif %}
 			</div>
+		{% endif %}
 			<div class="col-xs-12 have-border ">
 				<div class="col-xs-4  no-padding">
 					<div href = "#" class = "thumbnail">
@@ -92,21 +92,21 @@
 	</div>
 </div>
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">削除確認</h4>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">削除確認</h4>
+            </div>
 
-                <div class="modal-body">
-                    <p>このまとめトッピングを削除しますか？</p>
-                </div>
+            <div class="modal-body">
+                <p>このまとめトッピングを削除しますか？</p>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">いいえ</button>
-                    <a class="btn btn-danger btn-ok"  onclick="delMatome('{{ topic.page_id }}');">はい</a>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">いいえ</button>
+                <a class="btn btn-danger btn-ok"  onclick="delMatome('{{ topic.page_id }}');">はい</a>
             </div>
         </div>
     </div>
+</div>

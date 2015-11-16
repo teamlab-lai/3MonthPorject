@@ -45,7 +45,7 @@ class SecurityPlugin extends Plugin
 				'favorite'	 => array('index','create','delete'),
 				'management' => array('index'),
 				'post'		 => array('index','create','delete','doDelete'),
-				'comment'	 => array('index','picture','video','text','createUrl','createPicture','createVideo','createText'),
+				'comment'	 => array('index','picture','video','text','createUrl','createPicture','createVideo','createText','delete','doDelete'),
 				'topic'		 => array('oyaMatome','koMatome'),
 				'location'	 => array('index'),
 			);
