@@ -165,3 +165,10 @@ $di->set('uploadDir',function() use ($config){
 $di->set('modelsManager', function() {
       return new ModelsManager();
 });
+
+/**
+ *Rsgister fb app id
+ */
+$di->set('FbAppId',function() use ($config){
+	return  $config->fbApp->app_id;
+});

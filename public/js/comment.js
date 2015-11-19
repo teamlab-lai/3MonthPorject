@@ -89,7 +89,6 @@ function readImg(input , image_preview_id) {
         }
 
         reader.readAsDataURL(input.files[0]);
-        hideUrlPreview();
     }
 }
 
@@ -98,5 +97,4 @@ function readImg(input , image_preview_id) {
  */
 function clearImgFile(image_preview_id){
 	$('#'+image_preview_id).attr('src', '#');
-	showUrlPreview();
 }

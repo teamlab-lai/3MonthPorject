@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
  *  post on matome APP
  *  まとめトッピークを投稿する機能
  */
-class PostController extends ControllerBase
+class PostController extends FbMethodController
 {
 
     public function initialize()
@@ -25,55 +25,6 @@ class PostController extends ControllerBase
         $this->assets->addJs('js/jquery.preview.js');
         parent::initialize();
     }
-
-    /**
-     * Attempt to determine the real file type of a file.
-     *
-     * @param  string $extension Extension (eg 'jpg')
-     *
-     * @return boolean
-     */
-    private function _imageCheck($extension)
-    {
-        $allowedTypes = [
-            'image/gif',
-            'image/jpg',
-            'image/png',
-            'image/jpeg'
-        ];
-
-        return in_array($extension, $allowedTypes);
-    }
-
-	private function _getFbPageInfo($page_id){
-		if($this->auth['isAdmin'] == true){
-			$this->fb->setDefaultAccessToken($this->auth['adminToken']);
-		}else{
-			$this->fb->setDefaultAccessToken($this->auth['token']);
-		}
-
-        try {
-        	$page_info = array();
-
-            $page_response = $this->fb->get('/'.$page_id."?fields=updated_time,message,attachments{media},link,from");
-            $pageNode = $page_response->getDecodedBody();
-            $page_info['updated_time'] = date('Y-m-d H:i:s',strtotime($pageNode['updated_time']) );
-            $page_info['attachment_image'] = (isset($pageNode['attachments'])) ? $pageNode['attachments']['data'][0]['media']['image']['src'] : null;
-            $page_info['link'] = isset($pageNode['link']) ? $pageNode['link'] : null;
-            $page_info['user_name'] = $pageNode['from']['name'];
-            $page_info['user_id'] = $pageNode['from']['id'];
-            return $page_info;
-
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-            // When Graph returns an error
-            //$this->flash->error('Graphからエラーが有ります: ' . $e->getMessage());
-            return false;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-            // When validation fails or other local issues
-           // $this->flash->error('Facebook SDKらエラーが有ります: ' . $e->getMessage());
-            return false;
-        }
-	}
 
 	// Function to get the client IP address
 	private function _get_client_ip() {
@@ -296,29 +247,12 @@ class PostController extends ControllerBase
 			if ($request->isAjax()) {
 				$page_id = $this->request->getPost("page_id");
 				if($page_id != null){
-					try{
-						//もしユーザーはadminレベル
-						if($auth['isAdmin'] == true){
-							$this->fb->setDefaultAccessToken($auth['adminToken']);
-						}else{
-							$this->fb->setDefaultAccessToken($auth['token']);
-						}
 
-						//FBでトッピークを削除します
-						$delete_status = $this->fb->delete($page_id);
-						$delete_status = $delete_status->getDecodedBody();
-
-						if($delete_status['success'] == true){
-
-							//DBでトッピークを削除します
-							$del_process = $this->doDeleteAction($page_id);
-						}
-
-					}catch(Facebook\Exceptions\FacebookResponseException $e) {
-						//var_dump($e->getMessage());
-			        }catch(Facebook\Exceptions\FacebookSDKException $e) {
-			        	//var_dump($e->getMessage());
-			        }
+					$result = $this->_fbPageDelete($page_id);
+					if($result == true){
+						//DBでトッピークを削除します
+						$del_process = $this->doDeleteAction($page_id);
+					}
 			    }
 			}
 		}else{

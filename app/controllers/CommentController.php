@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
  *  comment on matome APP　
  *  まとめトッピークをコメントする機能
  */
-class CommentController extends ControllerBase
+class CommentController extends FbMethodController
 {
 
     public function initialize()
@@ -146,106 +146,6 @@ class CommentController extends ControllerBase
         $this->view->form = new CommentTextForm;
     }
 
-    /**
-     * FBでコメントの情報を取ります
-     * @param  string $comment_id コメントID
-     */
-    private function _getFbCommentInfo($comment_id){
-    	if($this->auth['isAdmin'] == true){
-			$this->fb->setDefaultAccessToken($this->auth['adminToken']);
-		}else{
-			$this->fb->setDefaultAccessToken($this->auth['token']);
-		}
-		 try {
-        	$comment_info = array();
-
-            $comment_response = $this->fb->get('/'.$comment_id."?fields=id,created_time,from,message,attachment");
-            $commentNode = $comment_response->getDecodedBody();
-            $comment_info['updated_time'] = date('Y-m-d H:i:s',strtotime($commentNode['created_time']) );
-            $comment_info['attachment_image'] = (isset($commentNode['attachment'])) ? $commentNode['attachment']['media']['image']['src'] : null;
-            if( isset($commentNode['attachment']) ){
-            	if( false !==  strpos($commentNode['attachment']['type'], 'video')){
-            		$comment_info['attachment_type'] = 'video';
-            	}elseif( false !==  strpos($commentNode['attachment']['type'], 'photo') ){
-            		$comment_info['attachment_type'] = 'photo';
-            	}else{
-            		$comment_info['attachment_type'] = 'website';
-            	}
-
-            	$comment_info['link'] = isset($commentNode['attachment']['url']) ? $commentNode['attachment']['url'] : null;
-            }
-            $comment_info['user_name'] = $commentNode['from']['name'];
-            $comment_info['user_id'] = $commentNode['from']['id'];
-            return $comment_info;
-
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-            // When Graph returns an error
-            //$this->flash->error('Graphからエラーが有ります: ' . $e->getMessage());
-            return false;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-            // When validation fails or other local issues
-           // $this->flash->error('Facebook SDKらエラーが有ります: ' . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * FBでコメントの情報を投稿する機能
-     * @param  string $page_id トッピングID
-     * @param  array $post_info 投稿の資料
-     * @param  array $pic_dir　アプロードダータURL
-     * @return array $result 投稿結果
-     */
-    private function _postOnFb($page_id , $post_info , $pic_dir = null ){
-    	$result = array(
-    		'result' => false,
-    		'comment_id' => null,
-    		);
-		//もしユーザーはadminレベル
-		if($this->auth['isAdmin'] == true){
-			$this->fb->setDefaultAccessToken($this->auth['adminToken']);
-		}else{
-			$this->fb->setDefaultAccessToken($this->auth['token']);
-		}
-
-		//アプロードダータが有ったら
-		if($pic_dir != null){
-			$post_info['source'] = $this->fb->fileToUpload($pic_dir);
-		}
-
-		$batch = [
-		  'post' => $this->fb->request('POST', '/'.$page_id.'/comments', $post_info ),
-		];
-
-		try {
-
-		  $responses = $this->fb->sendBatchRequest($batch);
-		} catch(Facebook\Exceptions\FacebookResponseException $e) {
-			return $result;
-
-		} catch(Facebook\Exceptions\FacebookSDKException $e) {
-			return $result;
-		}
-
-		foreach ($responses as $key => $response) {
-			if ($response->isError()) {
-				$e = $response->getThrownException();
-				/*
-				echo '<p>Error! Facebook SDK Said: ' . $e->getMessage() . "\n\n";
-				echo '<p>Graph Said: ' . "\n\n";
-				var_dump($e->getResponse());
-				*/
-				return $result;
-			} else {
-				$post_response = json_decode($response->getBody());
-				$comment_id = $post_response->id;
-			}
-		}
-
-		$result['result'] = true;
-		$result['comment_id'] = $comment_id;
-		return $result;
-    }
 
     /**
      * トッピークのコメント数を伸びます
@@ -319,25 +219,6 @@ class CommentController extends ControllerBase
     	$this->flash->success('投稿しました');
   		$this->response->redirect('topic/index/'.$page_id);
 
-    }
-
-    /**
-     * Attempt to determine the real file type of a file.
-     *
-     * @param  string $extension Extension (eg 'jpg')
-     *
-     * @return boolean
-     */
-    private function _imageCheck($extension)
-    {
-        $allowedTypes = [
-            'image/gif',
-            'image/jpg',
-            'image/png',
-            'image/jpeg'
-        ];
-
-        return in_array($extension, $allowedTypes);
     }
 
     /**
@@ -609,40 +490,20 @@ class CommentController extends ControllerBase
 				$comment_id = $this->request->getPost("comment_id");
 
 				if($comment_id != null){
-					try{
-						//もしユーザーはadminレベル
-						if($auth['isAdmin'] == true){
-							$this->fb->setDefaultAccessToken($auth['adminToken']);
-						}else{
-							$this->fb->setDefaultAccessToken($auth['token']);
+					$result = $this->_fbPageDelete($comment_id);
+					if($result == true){
+						$comment = Comments::findFirst(
+				            array(
+				            '(comment_id = :comment_id:)',
+				            'bind' => array('comment_id' => $comment_id),
+				            )
+				        );
+						if($comment != false){
+							$page_id = $comment->page_id;
+							//DBでコメントを削除します
+							$del_process = $this->doDeleteAction($comment_id);
 						}
-
-						//FBでコメントを削除します
-						$delete_status = $this->fb->delete($comment_id);
-
-						$delete_status = $delete_status->getDecodedBody();
-
-						if($delete_status['success'] == true){
-
-							$comment = Comments::findFirst(
-					            array(
-					            '(comment_id = :comment_id:)',
-					            'bind' => array('comment_id' => $comment_id),
-					            )
-					        );
-							if($comment != false){
-								$page_id = $comment->page_id;
-								//DBでコメントを削除します
-								$del_process = $this->doDeleteAction($comment_id);
-							}
-
-						}
-
-					}catch(Facebook\Exceptions\FacebookResponseException $e) {
-						//var_dump($e->getMessage());
-			        }catch(Facebook\Exceptions\FacebookSDKException $e) {
-			        	//var_dump($e->getMessage());
-			        }
+					}
 				}
 			}
 		}else{

@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta property="fb:app_id" content="{{ FbAppId }}">
         {{ get_title() }}
         {{ stylesheet_link('css/bootstrap.min.css') }}
         {{ stylesheet_link('css/bootstrap.rewrite.css') }}

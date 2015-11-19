@@ -6,7 +6,7 @@ use Phalcon\Mvc\Url;
  * Allows to authenticate users
  * ユーザーのログイン情報を記録します
  */
-class SessionController extends ControllerBase
+class SessionController extends FbMethodController
 {
     public function initialize()
     {
@@ -73,82 +73,6 @@ class SessionController extends ControllerBase
     }
 
     /**
-     * Calling FB api to get user's information and token
-     * fb apiでユーザーの情報を取ります
-     *
-     * @param  Object $accessToken Usertoken information come from FB api/FB APIでユーザーTOKEN情報
-     *
-     * @return boolean
-     */
-    private function _getFbId($accessToken){
-        //もしユーザーのTOKEN時間は短い
-        if (! $accessToken->isLongLived()) {
-          // Exchanges a short-lived access token for a long-lived one
-          try {
-            $oAuth2Client = $this->fb->getOAuth2Client();
-            $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-          } catch (Facebook\Exceptions\FacebookSDKException $e) {
-                $this->flash->error('エラーが有ります: ' . $helper->getMessage());
-                return $this->forward('session/index');
-          }
-        }
-
-        $this->fb->setDefaultAccessToken($accessToken->getValue());
-
-        try {
-            $user_response = $this->fb->get('/me?fields=id,name,picture');
-            $userNode = $user_response->getGraphUser();
-
-            //許可をチェックします
-            $promession_response = $this->fb->get('/'.$userNode->getId().'/permissions');
-            $promession_response = $promession_response->getDecodedBody();
-            foreach($promession_response['data'] AS $index=>$permission){
-                if($permission['status'] == 'declined'){
-                    $this->flash->error('パーミッションはなければなりません。');
-                    return false;
-                }
-            }
-
-            //ADMINレベルをチェックします
-            $admin_user_response = $this->fb->get('/me/accounts?fields=access_token,perms,id,category,cover,name');
-            $amdinUserNode = $admin_user_response->getDecodedBody();
-            $adminInfo = array(
-              'is_admin'=>false,
-              'id'=>null,
-              'name'=>null,
-              'picture'=>null,
-              'token'=>null,
-              );
-
-            foreach($amdinUserNode['data'] AS $index=>$fanPageInfo){
-              if($fanPageInfo['id'] == $this->FbPageId){
-                if(in_array('CREATE_CONTENT', $fanPageInfo['perms'])){
-                  $adminInfo = array(
-                    'is_admin'=>true,
-                    'id'=>$fanPageInfo['id'],
-                    'name'=>$fanPageInfo['name'],
-                    'picture'=>(isset($fanPageInfo['cover']['source'])) ? $fanPageInfo['cover']['source'] : null,
-                    'token'=>$fanPageInfo['access_token'],
-                    );
-                }
-              }
-            }
-
-            return $this->_registerSession($userNode , $accessToken , $adminInfo);
-
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-            $this->flash->error('Graphからエラーが有ります: ' . $e->getMessage());
-            return false;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-            $this->flash->error('Facebook SDKらエラーが有ります: ' . $e->getMessage());
-            return false;
-        }
-
-
-    }
-
-
-    /**
      * This action authenticate and logs an user into the FB
      *　fb apiからユーザーのtokenを取ります
      */
@@ -168,9 +92,12 @@ class SessionController extends ControllerBase
             }elseif($accessToken == null){
                 return $this->forward('session/index');
             }
-            $result = $this->_getFbId($accessToken);
-            if( $result == false){
-                return $this->forward('session/index');
+            $result = $this->_getUserFbProfileInfo($accessToken);
+            if( $result['result'] == false){
+              $this->flash->error($result['message']);
+              return $this->forward('session/index');
+            }else{
+              $this->_registerSession($result['userNode'] , $result['accessToken'] , $result['adminInfo']);
             }
             return $this->forward('index/');
 

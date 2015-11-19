@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta property="fb:app_id" content="<?php echo $FbAppId; ?>">
         <?php echo $this->tag->getTitle(); ?>
         <?php echo $this->tag->stylesheetLink('css/bootstrap.min.css'); ?>
         <?php echo $this->tag->stylesheetLink('css/bootstrap.rewrite.css'); ?>

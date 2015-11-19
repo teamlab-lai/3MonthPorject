@@ -24,6 +24,4 @@ function delFav( id, page_id ){
 		},
 
 	});
-
-
 }

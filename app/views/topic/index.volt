@@ -98,11 +98,11 @@
 				{{ link_to(comment.url_comment ,"class":"font-gray md-size", comment.url_comment ,false )  }}
 			{% elseif comment.picture_url != null %}
 				<h6>{{ comment.picture_title }}</h6>
-				<div class="col-xs-12">
+
 					<a href="javascript:void(0);" class="thumbnail">
 				    	<img src="{{ comment.picture_thumbnail_url }}" alt="">
 				    </a>
-				</div>
+
 			{% elseif comment.video_url != null %}
 				<h6>{{ comment.video_title }}</h6>
 				{% if comment.video_type == 'video'  %}

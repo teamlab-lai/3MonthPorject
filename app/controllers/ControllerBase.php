@@ -37,8 +37,33 @@ class ControllerBase extends Controller
         return $this->session->get('matome_auth');
     }
 
+    /**
+     * アプロードのファイルのタイプを確認します
+     * @param  string $extension Extension (eg 'jpg')
+     *
+     * @return boolean
+     */
+    protected function _imageCheck($extension)
+    {
+        $allowedTypes = [
+            'image/gif',
+            'image/jpg',
+            'image/png',
+            'image/jpeg'
+        ];
+
+        return in_array($extension, $allowedTypes);
+    }
+
+    /**
+     * ユーザーの行動をレコードします
+     * @param  string $controller Controller名前
+     * @param  string $action Action名前
+     */
     protected function saveBreadcrumb($controller, $action){
 
+        //このアレイのController名前またはactionをレコードしません
+        //array[Controller名前]=>[ 'Action名前','Action名前',...]
         $skip_controller = array(
             'js',
             'css',
@@ -57,18 +82,12 @@ class ControllerBase extends Controller
                 ),
             'errors',
             'comment',
-            /*
-            'comment'=>array(
-                    'createUrl',
-                    'createPictur',
-                    'createVideo',
-                    'createText',
-                ),
-            */
         );
 
         $breadcrumb = $this->session->get('breadcrumb');
         $temp_uri = null;
+
+        //アレイのController名前またはactionをレコードしません
         if($controller != null){
             if( isset($skip_controller[$controller]) && in_array($action, $skip_controller[$controller])){
                 return;
@@ -77,17 +96,19 @@ class ControllerBase extends Controller
             }
         }
 
-
         $current_uri = $this->router->getRewriteUri();
         $current_uri = ltrim($current_uri, '/');
 
+        //始める
         if(!$breadcrumb){
-            //$this->session->set('breadcrumb',array($controller.'/'.$action));
             $this->session->set('breadcrumb',array($current_uri) );
         }else{
+            //ゆーざーはIndexのページがいったら
             if($current_uri == 'index/index' || $current_uri == '' || $current_uri == '/'){
+                //始める
                 $this->session->set('breadcrumb',array($current_uri) );
             }else{
+                //レコード
                 $last_uri = end($breadcrumb);
                 if($last_uri != $current_uri && $current_uri != '' && $current_uri != null){
                     if($temp_uri != null && $temp_uri != $last_uri){

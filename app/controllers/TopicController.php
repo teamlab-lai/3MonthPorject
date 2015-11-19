@@ -6,7 +6,7 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
  *  matome topic
  *  まとめトッピーク
  */
-class TopicController extends ControllerBase
+class TopicController extends FbMethodController
 {
 
     public function initialize()
@@ -87,41 +87,6 @@ class TopicController extends ControllerBase
         $this->view->page = $paginator->getPaginate();
     }
 
-
-    /**
-     * FB APIでLIKE数とCOMMENT数を取ります
-     * @param  string $fb_id FBのトッピングIDまたは
-     * @return  array $result LIKE数とCOMMENT数
-     */
-    private function _getFBLikesAndComments( $fb_id ){
-        $result = array(
-            'result' => false,
-            'likes' => 0,
-            'comments' => 0,
-            );
-
-        if($this->auth['isAdmin'] == true){
-            $this->fb->setDefaultAccessToken($this->auth['adminToken']);
-        }else{
-            $this->fb->setDefaultAccessToken($this->auth['token']);
-        }
-
-        try{
-            $response = $this->fb->get('/'.$fb_id.'?fields=comments,likes');
-            $response = $response->getDecodedBody();
-            $result['comments'] = (isset($response['comments']['data'])) ? number_format(count($response['comments']['data'])) : 0;
-            $result['likes'] = (isset($response['likes']['data'])) ? number_format(count($response['likes']['data'])) : 0;
-            $result['result'] = true;
-
-        }catch(Facebook\Exceptions\FacebookResponseException $e) {
-            return  $result;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-            return  $result;
-        }
-
-        return  $result;
-    }
-
     /**
      * 親まとめトピック
      * @param  string $page_id まとめトピックID
@@ -196,6 +161,8 @@ class TopicController extends ControllerBase
      */
     public function koMatomeAction($comment_id){
         $this->assets->addCss('css/koMatome.css');
+        $this->assets->addJs('js/fbMethod.js');
+        $this->assets->addJs('js/koMatome.js');
 
         if(!isset($comment_id) || $comment_id == null){
             $this->response->redirect('errors/show401');
@@ -220,6 +187,7 @@ class TopicController extends ControllerBase
         $comments_likes = $this->_getFBLikesAndComments($comment_id);
 
         if( $comments_likes['result'] == false){
+            /*
             //ページが削除しました
             $this->dispatcher->forward(
                 array(
@@ -230,12 +198,14 @@ class TopicController extends ControllerBase
             );
 
             $this->flash->notice("コメントが削除しました、もう一度お願いします。");
+            */
+            $this->flash->notice("エラーが有りますから、もう一度お願いします。");
             $this->response->redirect('index/index');
         }
 
-        $this->view->likes = $comments_likes['likes'];
-        $this->view->comments = $comments_likes['comments'];
-
+        $this->view->likes = isset($comments_likes['likes']) ? (int)$comments_likes['likes'] : 0;
+        $this->view->comments = isset($comments_likes['comments']) ? (int)$comments_likes['comments'] : 0;
+        $this->view->is_liked = $comments_likes['is_liked'];
 
         //お気に入りデータを検察します
         if($this->auth == null){
@@ -256,6 +226,25 @@ class TopicController extends ControllerBase
             $this->view->is_fav = true;
         }else{
             $this->view->is_fav = false;
+        }
+
+        $this->view->FbPageId = $this->FbPageId;
+        $this->view->FbAppId = $this->FbAppId;
+
+        //子まとめのコメント資料FB APIでを取ります
+        $this->view->comment_box = $this->_getCommentDetail($comment_id);
+
+         //ユーザーの資料を取ります
+        if($this->auth['isAdmin'] == true){
+            $this->view->user_info = array(
+                'user_name' =>$this->auth['adminName'],
+                'user_photo' =>$this->auth['adminPicture'],
+                );
+        }else{
+            $this->view->user_info = array(
+                'user_name' =>$this->auth['name'],
+                'user_photo' =>$this->auth['picture'],
+                );
         }
     }
 

@@ -91,11 +91,11 @@
 				<?php echo $this->tag->linkTo(array($comment->url_comment, 'class' => 'font-gray md-size', $comment->url_comment, false)); ?>
 			<?php } elseif ($comment->picture_url != null) { ?>
 				<h6><?php echo $comment->picture_title; ?></h6>
-				<div class="col-xs-12">
+
 					<a href="javascript:void(0);" class="thumbnail">
 				    	<img src="<?php echo $comment->picture_thumbnail_url; ?>" alt="">
 				    </a>
-				</div>
+
 			<?php } elseif ($comment->video_url != null) { ?>
 				<h6><?php echo $comment->video_title; ?></h6>
 				<?php if ($comment->video_type == 'video') { ?>
