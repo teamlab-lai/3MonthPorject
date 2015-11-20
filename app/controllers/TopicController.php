@@ -93,6 +93,8 @@ class TopicController extends FbMethodController
      */
     public function oyaMatomeAction($page_id){
     	$this->assets->addCss('css/oyaMatome.css');
+        $this->assets->addJs('js/fbMethod.js');
+        $this->assets->addJs('js/oyaMatome.js');
 
         if(!isset($page_id) || $page_id == null){
             $this->response->redirect('errors/show401');
@@ -132,6 +134,7 @@ class TopicController extends FbMethodController
 
         $this->view->likes = $comments_likes['likes'];
         $this->view->comments = $comments_likes['comments'];
+        $this->view->is_liked = $comments_likes['is_liked'];
 
         //お気に入りデータを検察します
         if($this->auth == null){

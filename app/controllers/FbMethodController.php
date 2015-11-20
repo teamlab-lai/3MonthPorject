@@ -1,5 +1,6 @@
 <?php
-
+use Phalcon\Http\Request;
+use Phalcon\Http\Response;
 use Phalcon\Mvc\Controller;
 /**
  * FbMethodController
@@ -11,6 +12,7 @@ class FbMethodController extends ControllerBase
 
     protected function initialize()
     {
+        $this->auth = $this->getAuth();
         parent::initialize();
     }
 
@@ -157,6 +159,7 @@ class FbMethodController extends ControllerBase
 
             $comment_response = $this->fb->get('/'.$comment_id."?fields=id,created_time,from,message,attachment");
             $commentNode = $comment_response->getDecodedBody();
+            $comment_info['message'] = $commentNode['message'];
             $comment_info['updated_time'] = date('Y-m-d H:i:s',strtotime($commentNode['created_time']) );
             $comment_info['attachment_image'] = (isset($commentNode['attachment'])) ? $commentNode['attachment']['media']['image']['src'] : null;
             if( isset($commentNode['attachment']) ){
@@ -172,6 +175,18 @@ class FbMethodController extends ControllerBase
             }
             $comment_info['user_name'] = $commentNode['from']['name'];
             $comment_info['user_id'] = $commentNode['from']['id'];
+
+            //ユーザーの画像を取ります
+            try{
+                $user = $this->fb->get('/'.$commentNode['from']['id'].'?fields=picture');
+                $user = $user->getDecodedBody();
+                $user_photo = isset($user['picture']['data']['url']) ? $user['picture']['data']['url'] : null;
+            }catch(Facebook\Exceptions\FacebookResponseException $e) {
+                $user_photo = null;
+            } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                $user_photo = null;
+            }
+            $comment_info['user_photo'] = $user_photo;
             return $comment_info;
 
         } catch(Facebook\Exceptions\FacebookResponseException $e) {
@@ -404,5 +419,208 @@ class FbMethodController extends ControllerBase
         } catch(Facebook\Exceptions\FacebookSDKException $e) {
             return  $result;
         }
+    }
+
+    /**
+     * FB APIでライクをあげます
+     * @return array REST API スタイル答え
+     */
+    public function likeCreateAction(){
+        $this->view->disable();
+        $request = new Request();
+        $response = new Response();
+        $result = false;
+        if ($request->isPost()) {
+            if ($request->isAjax()) {
+                $fb_page_id = $this->request->getPost("fb_page_id");
+                if($fb_page_id == null){
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'ERROR',
+                            'messages' => ' エラーが有りました。'
+                        )
+                    );
+                    return $response;
+                }
+                if($this->auth['isAdmin'] == true){
+                    $this->fb->setDefaultAccessToken($this->auth['adminToken']);
+                }else{
+                    $this->fb->setDefaultAccessToken($this->auth['token']);
+                }
+
+                try{
+
+                    $fb_response = $this->fb->post('/'.$fb_page_id.'/likes');
+                    $fb_response = $fb_response->getDecodedBody();
+                    $result = $fb_response['success'];
+
+                    //like数を取ります
+                    $comments_and_likes_num = $this->_getFBLikesAndComments($fb_page_id);
+                   if( $comments_and_likes_num['result'] == true){
+                        $likes_num = $comments_and_likes_num['likes'];
+                    }
+
+                }catch(Facebook\Exceptions\FacebookResponseException $e) {
+
+                }catch(Facebook\Exceptions\FacebookSDKException $e) {
+
+                }
+
+                if($result == true){
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'OK',
+                            'likes'    => isset($likes_num) ? $likes_num : 0,
+                        )
+                    );
+                }else{
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'ERROR',
+                            'messages' => ' エラーが有りました。'
+                        )
+                    );
+                }
+            }
+        }else{
+             $response->setJsonContent(
+                array(
+                    'status'   => 'ERROR',
+                    'messages' => 'POST方はなければなりません。'
+                )
+            );
+        }
+        return $response;
+    }
+
+    /**
+     * FB APIでライクをキャンセルします
+     * @return array REST API スタイル答え
+     */
+    public function likeDeleteAction(){
+        $this->view->disable();
+        $request = new Request();
+        $response = new Response();
+        $result = false;
+        if ($request->isPost()) {
+            if ($request->isAjax()) {
+                $fb_page_id = $this->request->getPost("fb_page_id");
+                if($fb_page_id == null){
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'ERROR',
+                            'messages' => ' エラーが有りました。'
+                        )
+                    );
+                    return $response;
+                }
+                if($this->auth['isAdmin'] == true){
+                    $this->fb->setDefaultAccessToken($this->auth['adminToken']);
+                }else{
+                    $this->fb->setDefaultAccessToken($this->auth['token']);
+                }
+
+                try{
+
+                    $fb_response = $this->fb->delete('/'.$fb_page_id.'/likes');
+                    $fb_response = $fb_response->getDecodedBody();
+                    $result = $fb_response['success'];
+
+                    //like数を取ります
+                    $comments_and_likes_num = $this->_getFBLikesAndComments($fb_page_id);
+                   if( $comments_and_likes_num['result'] == true){
+                        $likes_num = $comments_and_likes_num['likes'];
+                    }
+
+                }catch(Facebook\Exceptions\FacebookResponseException $e) {
+
+                }catch(Facebook\Exceptions\FacebookSDKException $e) {
+
+                }
+
+                if($result == true){
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'OK',
+                            'likes'    => isset($likes_num) ? $likes_num : 0,
+                        )
+                    );
+                }else{
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'ERROR',
+                            'messages' => ' エラーが有りました。'
+                        )
+                    );
+                }
+            }
+        }else{
+             $response->setJsonContent(
+                array(
+                    'status'   => 'ERROR',
+                    'messages' => 'POST方はなければなりません。'
+                )
+            );
+        }
+        return $response;
+    }
+
+    /**
+     * FB APIでコメントを返信します
+     * @return array REST API スタイル答え
+     */
+    public function postCommentAction(){
+        $this->view->disable();
+        $request = new Request();
+        $response = new Response();
+
+        if ($request->isPost()) {
+            if ($request->isAjax()) {
+                $fb_page_id = $this->request->getPost("fb_page_id");
+                $input_message = $this->request->getPost("input_message");
+
+                if($fb_page_id == null || $input_message == null){
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'ERROR',
+                            'messages' => ' エラーが有りました。'
+                        )
+                    );
+                    return $response;
+                }
+
+                $post_info = array(
+                    'message' => $input_message,
+                );
+
+                $result = $this->_postOnFb( $fb_page_id, $post_info, null);
+
+                $comment_info = $this->_getFbCommentInfo($result['comment_id']);
+                if($result['result'] == true){
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'OK',
+                            'message'  => null,
+                            'comment_info' =>$comment_info
+                        )
+                    );
+                }else{
+                    $response->setJsonContent(
+                        array(
+                            'status'   => 'ERROR',
+                            'messages' => ' エラーが有りました。'
+                        )
+                    );
+                }
+            }
+        }else{
+             $response->setJsonContent(
+                array(
+                    'status'   => 'ERROR',
+                    'messages' => 'POST方はなければなりません。'
+                )
+            );
+        }
+        return $response;
     }
 }

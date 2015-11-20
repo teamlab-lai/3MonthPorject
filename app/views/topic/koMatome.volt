@@ -93,16 +93,16 @@
 </div>
 <div class="row">
 	<div class="col-xs-12 padding-10 font-gray">
-		<div class="col-xs-12 " >
+		<div class="col-xs-12 " id="fb_like_btn">
 			{% if is_liked == true %}
 				<a href="javascript:void(0);" class="font-gray like-button js-dislike" data-id="{{ comment.comment_id }}"><small>いいね!を取り消す</small></a>
 			{% else %}
 				<a href="javascript:void(0);" class="font-gray like-button js-like" data-id="{{ comment.comment_id }}"><small>いいね!</small></a>
 			{% endif %}
 		</div>
-		<div class="col-xs-12" >
+		<div class="col-xs-12" id="likes_area">
 		{% if likes > 0 %}
-			<small>{{ likes }} がいいね！と言っています</small>
+			<small>{{ likes }}がいいね！と言っています</small>
 		{% endif %}
 		</div>
 	</div>
@@ -115,7 +115,7 @@
 				<div class="list-group-item no-border no-background-color have-bottom-line">
 					<div class="row  ">
 						<div class="col-xs-3">
-							<a href="#" class="thumbnail no-margin no-border ">
+							<a href="javascript:void(0);" class="thumbnail no-margin no-border ">
 								{% if comment_detail['user_photo'] == null %}
 									<img src="/matome/img/default-page.png" alt="">
 								{% else %}
@@ -153,7 +153,7 @@
 				</div>
 			{% endfor %}
 		{% endif %}
-		<div class="list-group-item no-border no-background-color">
+		<div class="list-group-item no-border no-background-color js-new-comment-block">
 			<div class="row ">
 				<div class="col-xs-3">
 					<a href="#" class="thumbnail no-margin no-border ">
@@ -170,8 +170,15 @@
 							<small>{{ user_info['user_name'] }}</small>
 						</a>
 					</div>
-					<div class="col-xs-12 comment-message">
-						 <input type="text" class="form-control" placeholder="返信する" aria-describedby="basic-addon1">
+					<div class="col-xs-12">
+						<div class="input-group input-group-sm">
+							<input type="text" class="form-control js-comment-input" placeholder="コメントする" aria-describedby="sizing-addon3" data-id="{{ comment.comment_id }}">
+							<div class="input-group-btn">
+	 							<button type="button" class="btn btn-default btn-xs js-comment-submit">
+									<span class="glyphicon glyphicon-pencil js-input-submit-icon" aria-hidden="true"></span>
+								</button>
+  							</div>
+						</div>
 					</div>
 				</div>
 			</div>

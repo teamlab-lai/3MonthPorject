@@ -48,6 +48,7 @@ class SecurityPlugin extends Plugin
 				'comment'	 => array('index','picture','video','text','createUrl','createPicture','createVideo','createText','delete','doDelete'),
 				'topic'		 => array('oyaMatome','koMatome'),
 				'location'	 => array('index'),
+				'FbMethod'	 => array('likeDelete','likeCreate','postComment'),
 			);
 			foreach ($privateResources as $resource => $actions) {
 				$acl->addResource(new Resource($resource), $actions);
@@ -62,6 +63,7 @@ class SecurityPlugin extends Plugin
 				'reload'	 => array('index'),
 				'back'	 	 => array('index'),
 				'topic'		 => array('index'),
+
 
 			);
 			foreach ($publicResources as $resource => $actions) {

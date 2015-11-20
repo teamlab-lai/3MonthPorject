@@ -82,6 +82,7 @@ class ControllerBase extends Controller
                 ),
             'errors',
             'comment',
+            'FbMethod',
         );
 
         $breadcrumb = $this->session->get('breadcrumb');

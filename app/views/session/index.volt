@@ -1,15 +1,8 @@
 
 {{ content() }}
-
-<div class="row">
-    <div class="col-xs-2 col-xs-offset-3 col-sm-offset-5 center">
-
-    {{ link_to(loginUrl, ' login', "class": "", 'local':false) }}
-
-    <!--
-        <fb:login-button scope="public_profile,email,user_location,publish_pages,publish_actions" data-size="xlarge" onlogin="checkLoginState();">
-        </fb:login-button>
-       -->
-    </div>
+<div class="row margin-top-50">
+	<div class="col-xs-6 col-xs-offset-3 col-sm-offset-3 ">
+		{{ link_to(loginUrl, "class": "thumbnail", '<img src="/matome/img/F_icon.svg.png" alt="">' ,'local':false) }}
+	</div>
 </div>
 <div id="fb-root"></div>

@@ -63,9 +63,21 @@
 			</div>
 
 		</div>
-
-		<div class="col-xs-12 padding-10 font-gray">
-			<small>{{ likes }} がいいね！と言っています</small>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 padding-10 font-gray">
+		<div class="col-xs-12 " id="fb_like_btn">
+			{% if is_liked == true %}
+				<a href="javascript:void(0);" class="font-gray like-button js-dislike" data-id="{{ topic.page_id }}"><small>いいね!を取り消す</small></a>
+			{% else %}
+				<a href="javascript:void(0);" class="font-gray like-button js-like" data-id="{{ topic.page_id }}"><small>いいね!</small></a>
+			{% endif %}
+		</div>
+		<div class="col-xs-12" id="likes_area">
+		{% if likes > 0 %}
+			<small>{{ likes }}がいいね！と言っています</small>
+		{% endif %}
 		</div>
 	</div>
 </div>
