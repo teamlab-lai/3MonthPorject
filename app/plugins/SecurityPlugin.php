@@ -58,7 +58,7 @@ class SecurityPlugin extends Plugin
 			$publicResources = array(
 				'index'      => array('index'),
 				'errors'     => array('show401', 'show404', 'show500'),
-				'session'    => array('index', 'register', 'login', 'logout'),
+				'session'    => array('index', 'register', 'login', 'logout','testLogin'),
 				'search'     => array('index','doSearch','history','deleteHistory'),
 				'reload'	 => array('index'),
 				'back'	 	 => array('index'),

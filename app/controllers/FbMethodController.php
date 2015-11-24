@@ -597,6 +597,19 @@ class FbMethodController extends ControllerBase
 
                 $comment_info = $this->_getFbCommentInfo($result['comment_id']);
                 if($result['result'] == true){
+
+                    //トッピングの更新時間をアップデートします
+                    $comment = Comments::findFirst(
+                        array(
+                        '(comment_id = :comment_id:)',
+                        'bind' => array('comment_id' => $fb_page_id),
+                        )
+                    );
+
+                    $topic_id = $comment->page_id;
+
+                    $this->updateTopicCommentCount($topic_id);
+
                     $response->setJsonContent(
                         array(
                             'status'   => 'OK',

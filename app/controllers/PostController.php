@@ -26,29 +26,6 @@ class PostController extends FbMethodController
         parent::initialize();
     }
 
-	// Function to get the client IP address
-	private function _get_client_ip() {
-		$ipaddress = '';
-		if (getenv('HTTP_CLIENT_IP'))
-			$ipaddress = getenv('HTTP_CLIENT_IP');
-		else if(getenv('HTTP_X_FORWARDED_FOR'))
-			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-		else if(getenv('HTTP_X_FORWARDED'))
-			$ipaddress = getenv('HTTP_X_FORWARDED');
-		else if(getenv('HTTP_FORWARDED_FOR'))
-			$ipaddress = getenv('HTTP_FORWARDED_FOR');
-		else if(getenv('HTTP_FORWARDED'))
-			$ipaddress = getenv('HTTP_FORWARDED');
-		else if(getenv('REMOTE_ADDR'))
-			$ipaddress = getenv('REMOTE_ADDR');
-		else
-			$ipaddress = 'UNKNOWN';
-
-		if( $ipaddress == '::1'){
-			$ipaddress = '127.0.0.1';
-		}
-		return $ipaddress;
-	}
     public function indexAction()
     {
     	if(empty($this->auth)){
@@ -202,6 +179,7 @@ class PostController extends FbMethodController
 
   		$get_post_info = $this->_getFbPageInfo($page_id);
   		$ipaddress = $this->_get_client_ip();
+  		$loc = $this->_get_loc($ipaddress);
 
   		//DBで情報をセープします
 		$topics->user_name 		  	 = ($auth['isAdmin'] == ture) ? $auth['adminName'] : $auth['name'];
@@ -218,6 +196,8 @@ class PostController extends FbMethodController
 		$topics->embed_video_url 	 = ( isset($iframe_url) && $iframe_url != null ) ? $iframe_url : null;
  		$topics->description		 = $this->request->getPost("description", "striptags");
 		$topics->ip_location		 = $ipaddress;
+		$topics->longitude			 = ( isset($loc['longitude']) && $loc['longitude'] != null) ? $loc['longitude'] : null;
+		$topics->latitude			 = ( isset($loc['latitude']) && $loc['latitude'] != null) ? $loc['latitude'] : null;
 		$topics->views		  		 = 0;
 		$topics->update_time		 = $get_post_info['updated_time'];
 

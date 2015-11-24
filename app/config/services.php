@@ -172,3 +172,10 @@ $di->set('modelsManager', function() {
 $di->set('FbAppId',function() use ($config){
 	return  $config->fbApp->app_id;
 });
+
+/**
+ *Rsgister version
+ */
+$di->set('version',function() use ($config){
+	return  $config->version->version;
+});

@@ -7,7 +7,7 @@ body {
 body .container {
   padding-bottom: 100px;
 }
-/* line 10, ../sass/bootstrap.rewrite.scss */
+/* line 9, ../sass/bootstrap.rewrite.scss */
 body .navbar .inner-nav .list-inline {
   position: relative;
   left: 50%;
@@ -15,7 +15,7 @@ body .navbar .inner-nav .list-inline {
   margin-right: 0;
   margin-left: 0;
 }
-/* line 17, ../sass/bootstrap.rewrite.scss */
+/* line 16, ../sass/bootstrap.rewrite.scss */
 body .navbar .inner-nav .list-inline a {
   color: #fff;
   position: relative;
@@ -25,20 +25,20 @@ body .navbar .inner-nav .list-inline a {
   list-style: none;
   padding: 6px;
 }
-/* line 25, ../sass/bootstrap.rewrite.scss */
+/* line 24, ../sass/bootstrap.rewrite.scss */
 body .navbar .inner-nav .list-inline a span {
   font-size: 1.5em;
 }
-/* line 32, ../sass/bootstrap.rewrite.scss */
+/* line 31, ../sass/bootstrap.rewrite.scss */
 body .white-color {
   color: white;
 }
-/* line 34, ../sass/bootstrap.rewrite.scss */
+/* line 33, ../sass/bootstrap.rewrite.scss */
 body .white-color .small-size {
   line-height: 40px;
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
-/* line 40, ../sass/bootstrap.rewrite.scss */
+/* line 39, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav {
   background-color: #222;
   text-align: center;
@@ -47,24 +47,24 @@ body .navbar-inverse .navbar-nav {
   width: 100%;
   text-align: center;
 }
-/* line 47, ../sass/bootstrap.rewrite.scss */
+/* line 46, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav > li {
   float: none;
   display: inline-block;
 }
-/* line 52, ../sass/bootstrap.rewrite.scss */
+/* line 51, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav .active > a, body .navbar-inverse .navbar-nav .active a:hover, body .navbar-inverse .navbar-nav .active a:focus {
   background-color: transparent;
 }
-/* line 56, ../sass/bootstrap.rewrite.scss */
+/* line 55, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav a {
   font-size: 80%;
 }
-/* line 61, ../sass/bootstrap.rewrite.scss */
+/* line 60, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .nav-collapse {
   text-align: center;
 }
-/* line 66, ../sass/bootstrap.rewrite.scss */
+/* line 65, ../sass/bootstrap.rewrite.scss */
 body .navbar-fixed-top div {
   line-height: 40px;
 }

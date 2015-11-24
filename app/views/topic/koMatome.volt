@@ -81,7 +81,7 @@
 							'<div class="col-xs-5 text-center no-padding vertical-center">
 								<div class="btn-group btn-group-xs" role="group" aria-label="">
 									<button type="button" class="btn btn-default">
-										このまとめに投稿する
+										<small>このまとめに投稿する</small>
 										<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 									</button>
 								</div>

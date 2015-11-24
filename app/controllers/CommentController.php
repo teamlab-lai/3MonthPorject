@@ -146,26 +146,6 @@ class CommentController extends FbMethodController
         $this->view->form = new CommentTextForm;
     }
 
-
-    /**
-     * トッピークのコメント数を伸びます
-     * @param  string $page_id トッピークID
-     */
-    private function updateTopicCommentCount($page_id){
-
-    	//ユーザーに選択されたタイトル情報
-    	$topic = Topics::findFirst(
-			array(
-			'(page_id = :page_id:)',
-			'bind' => array('page_id' => $page_id),
-			)
-		);
-
-    	$topic->comment_count ++ ;
-    	$topic->update_time = date('Y-m-d H:i:s');
-	    $topic->save();
-    }
-
     /**
      * まとめトッピングURLを投稿する機能
      * @param  string $page_id トッピングID
@@ -196,6 +176,8 @@ class CommentController extends FbMethodController
 
 		$comment_id = $post_fb_result['comment_id'];
 		$get_comment_info = $this->_getFbCommentInfo($comment_id);
+        $ipaddress = $this->_get_client_ip();
+        $loc = $this->_get_loc($ipaddress);
 
 		$comments = new Comments();
 		//DBで情報をセープします
@@ -205,6 +187,9 @@ class CommentController extends FbMethodController
 		$comments->page_id		  	 	 = $page_id;
 		$comments->comment_id		  	 = $comment_id;
 		$comments->url_comment			 = $post_data['url_comment'];
+        $comments->ip_location           = $ipaddress;
+        $comments->longitude             = ( isset($loc['longitude']) && $loc['longitude'] != null) ? $loc['longitude'] : null;
+        $comments->latitude              = ( isset($loc['latitude']) && $loc['latitude'] != null) ? $loc['latitude'] : null;
 
 		if ($comments->save() == false) {
 			foreach ($comments->getMessages() as $message) {
@@ -216,7 +201,7 @@ class CommentController extends FbMethodController
 
     	$this->updateTopicCommentCount($page_id);
 
-    	$this->flash->success('投稿しました');
+    	$this->flash->success('コメントを投稿しました');
   		$this->response->redirect('topic/index/'.$page_id);
 
     }
@@ -308,6 +293,8 @@ class CommentController extends FbMethodController
 
 		$comment_id = $post_fb_result['comment_id'];
 		$get_comment_info = $this->_getFbCommentInfo($comment_id);
+        $ipaddress = $this->_get_client_ip();
+        $loc = $this->_get_loc($ipaddress);
 
 		$comments = new Comments();
 		//DBで情報をセープします
@@ -320,6 +307,9 @@ class CommentController extends FbMethodController
 		$comments->picture_thumbnail_url = $get_comment_info['attachment_image'];
 		$comments->picture_title		 = $post_data['picture_title'];
 		$comments->picture_description	 = $post_data['picture_description'];
+        $comments->ip_location           = $ipaddress;
+        $comments->longitude             = ( isset($loc['longitude']) && $loc['longitude'] != null) ? $loc['longitude'] : null;
+        $comments->latitude              = ( isset($loc['latitude']) && $loc['latitude'] != null) ? $loc['latitude'] : null;
 
 		if ($comments->save() == false) {
 			foreach ($comments->getMessages() as $message) {
@@ -330,7 +320,7 @@ class CommentController extends FbMethodController
 
     	$this->updateTopicCommentCount($page_id);
 
-    	$this->flash->success('投稿しました');
+    	$this->flash->success('コメントを投稿しました');
   		$this->response->redirect('topic/index/'.$page_id);
     }
 
@@ -378,6 +368,8 @@ class CommentController extends FbMethodController
 		$comment_id = $post_fb_result['comment_id'];
 
 		$get_comment_info = $this->_getFbCommentInfo($comment_id);
+        $ipaddress = $this->_get_client_ip();
+        $loc = $this->_get_loc($ipaddress);
 
 		$comments = new Comments();
 		//DBで情報をセープします
@@ -407,6 +399,10 @@ class CommentController extends FbMethodController
 			$comments->video_type = 'photo';
 		}
 
+        $comments->ip_location           = $ipaddress;
+        $comments->longitude             = ( isset($loc['longitude']) && $loc['longitude'] != null) ? $loc['longitude'] : null;
+        $comments->latitude              = ( isset($loc['latitude']) && $loc['latitude'] != null) ? $loc['latitude'] : null;
+
 		if ($comments->save() == false) {
 			foreach ($comments->getMessages() as $message) {
 			 	$this->flash->error($message);
@@ -416,7 +412,7 @@ class CommentController extends FbMethodController
 
     	$this->updateTopicCommentCount($page_id);
 
-    	$this->flash->success('投稿しました');
+    	$this->flash->success('コメントを投稿しました');
   		$this->response->redirect('topic/index/'.$page_id);
 
     }
@@ -451,6 +447,8 @@ class CommentController extends FbMethodController
 		$comment_id = $post_fb_result['comment_id'];
 
 		$get_comment_info = $this->_getFbCommentInfo($comment_id);
+        $ipaddress = $this->_get_client_ip();
+        $loc = $this->_get_loc($ipaddress);
 
 		$comments = new Comments();
 		//DBで情報をセープします
@@ -460,6 +458,9 @@ class CommentController extends FbMethodController
 		$comments->page_id		  	 	 = $page_id;
 		$comments->comment_id		  	 = $comment_id;
 		$comments->text_comment			 = $post_data['text_comment'];
+        $comments->ip_location           = $ipaddress;
+        $comments->longitude             = ( isset($loc['longitude']) && $loc['longitude'] != null) ? $loc['longitude'] : null;
+        $comments->latitude              = ( isset($loc['latitude']) && $loc['latitude'] != null) ? $loc['latitude'] : null;
 
 		if ($comments->save() == false) {
 			foreach ($comments->getMessages() as $message) {
@@ -471,7 +472,7 @@ class CommentController extends FbMethodController
 
     	$this->updateTopicCommentCount($page_id);
 
-    	$this->flash->success('投稿しました');
+    	$this->flash->success('コメントを投稿しました');
   		$this->response->redirect('topic/index/'.$page_id);
     }
 
@@ -579,6 +580,7 @@ class CommentController extends FbMethodController
 
 
 			$transaction->commit();
+            $this->_delbreadcrumb('topic/koMatome/'.$comment_id);
 			return true;
 
     	}catch (Phalcon\Mvc\Model\Transaction\Failed $e) {

@@ -83,47 +83,49 @@
 	</div>
 </div>
 <div class="row">
-	<div class="list-group">
-	<?php foreach ($page->items as $comment) { ?>
-		<div class="list-group-item comment-items" data-link='<?php echo $this->url->get('topic/koMatome/' . $comment->comment_id); ?>' >
-			<div class="row text-center">
-			<?php if ($comment->url_comment != null) { ?>
-				<?php echo $this->tag->linkTo(array($comment->url_comment, 'class' => 'font-gray md-size', $comment->url_comment, false)); ?>
-			<?php } elseif ($comment->picture_url != null) { ?>
-				<h6><?php echo $comment->picture_title; ?></h6>
+	<div class="col-xs-12 ">
+		<div class="list-group">
+			<?php foreach ($page->items as $comment) { ?>
+			<div class="list-group-item no-border no-background-color have-bottom-line comment-items" data-link='<?php echo $this->url->get('topic/koMatome/' . $comment->comment_id); ?>'>
+				<div class="row text-center" >
+				<?php if ($comment->url_comment != null) { ?>
+					<?php echo $this->tag->linkTo(array($comment->url_comment, 'class' => 'font-gray md-size', $comment->url_comment, false)); ?>
+				<?php } elseif ($comment->picture_url != null) { ?>
+					<h6><?php echo $comment->picture_title; ?></h6>
 
-					<a href="javascript:void(0);" class="thumbnail">
-				    	<img src="<?php echo $comment->picture_thumbnail_url; ?>" alt="">
-				    </a>
+						<a href="javascript:void(0);" class="thumbnail">
+					    	<img src="<?php echo $comment->picture_thumbnail_url; ?>" alt="">
+					    </a>
 
-			<?php } elseif ($comment->video_url != null) { ?>
-				<h6><?php echo $comment->video_title; ?></h6>
-				<?php if ($comment->video_type == 'video') { ?>
-					<div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="<?php echo $comment->video_url; ?>"></iframe>
-                    </div>
-				<?php } elseif ($comment->video_type == 'website') { ?>
-					<?php if ($comment->video_thumbnail_url != null) { ?>
-						<div href = "#" class = "thumbnail">
-							<img class="center-pic" src = <?php echo $comment->video_thumbnail_url; ?> alt = "">
+				<?php } elseif ($comment->video_url != null) { ?>
+					<h6><?php echo $comment->video_title; ?></h6>
+					<?php if ($comment->video_type == 'video') { ?>
+						<div class="embed-responsive embed-responsive-16by9">
+	                        <iframe class="embed-responsive-item" src="<?php echo $comment->video_url; ?>"></iframe>
+	                    </div>
+					<?php } elseif ($comment->video_type == 'website') { ?>
+						<?php if ($comment->video_thumbnail_url != null) { ?>
+							<div href = "#" class = "thumbnail">
+								<img class="center-pic" src = <?php echo $comment->video_thumbnail_url; ?> alt = "">
+							</div>
+						<?php } ?>
+						<?php echo $this->tag->linkTo(array($comment->video_url, 'class' => 'font-gray md-size', 'リング', false)); ?>
+					<?php } else { ?>
+						<div class="col-xs-12">
+							<a href="javascript:void(0);" class="thumbnail">
+						    	<img src="<?php echo $comment->video_thumbnail_url; ?>" alt="">
+						    </a>
 						</div>
 					<?php } ?>
-					<?php echo $this->tag->linkTo(array($comment->video_url, 'class' => 'font-gray md-size', 'リング', false)); ?>
+				<?php } elseif ($comment->text_comment != null) { ?>
+					<small><?php echo $comment->text_comment; ?></small>
 				<?php } else { ?>
-					<div class="col-xs-12">
-						<a href="javascript:void(0);" class="thumbnail">
-					    	<img src="<?php echo $comment->video_thumbnail_url; ?>" alt="">
-					    </a>
-					</div>
-				<?php } ?>
-			<?php } elseif ($comment->text_comment != null) { ?>
-				<small><?php echo $comment->text_comment; ?></small>
-			<?php } else { ?>
 
-			<?php } ?>
+				<?php } ?>
+				</div>
 			</div>
+			<?php } ?>
 		</div>
-	<?php } ?>
 	</div>
 </div>
 <div class="navbar navbar-inverse navbar-fixed-bottom" >

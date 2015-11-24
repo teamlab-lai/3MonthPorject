@@ -68,7 +68,6 @@ class SessionController extends FbMethodController
             'adminPicture'    =>($adminInfo['is_admin'] == true) ? $adminInfo['picture'] : null,
             'adminToken'      =>($adminInfo['is_admin'] == true) ? $adminInfo['token'] : null,
         ));
-
         return true;
     }
 
@@ -121,5 +120,25 @@ class SessionController extends FbMethodController
     {
         $this->session->remove('matome_auth');
         return $this->forward('index/index');
+    }
+
+
+    public function testLoginAction(){
+       $this->session->set('matome_auth', array(
+            'id'              =>'1082845298392991',
+            'name'            =>'賴彥伸',
+            'picture'         => 'https://scontent.xx.fbcdn.net/hprofile-xaf1/v/t1.0-1/c0.12.50.50/p50x50/406774_343552225655639_746615155_n.jpg?oh=72c295dceb9d0f25858a4e11db84532e&oe=56EDDC5B',
+            'token'           =>'CAAI9eKdjJYEBAKF62JJZAn5YlWJcWKOPmX01hZBt1BG3wspOgWR8t62rQlne0aZB2udYA13fOWOKQmIbSZCB90jtOA6hpt4hYOS0op9ozrAPk47QZBi1JBBNPEmvRd8XnsRS5BlUT6BkBxuVGBGZBlssvKh4VIGhxqYYXItANAG6xxQPUEgT1c',
+            'ExpiresAt'       =>null,
+            'isExpired'       =>null,
+            'isLongLived'     =>false,
+            'isAppAccessToken'=>false,
+            'isAdmin'         =>true,
+            'adminId'         =>'729669407057443',
+            'adminName'       =>'票券團',
+            'adminPicture'    =>null,
+            'adminToken'      =>'CAAI9eKdjJYEBAFlquQUgyjLbGpZCtnavTVS0cPOa6baOBjfwcb8LsV3QJyvrPA6N2XIM48eYwCi5RiiaX4KzAIHZB2v87DmYCqQCiGO3rrn69iRCNZCyxrDYUNPpZCgJCnjEV7oizlaIg9OnJ6ob61PPSTOQQeZCpwSkMa3e2KlNOXXJVolJC',
+        ));
+        $this->response->redirect('index/index');
     }
 }

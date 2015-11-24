@@ -56,6 +56,79 @@ class ControllerBase extends Controller
     }
 
     /**
+     * ユーザーのIP情報
+     * @return string $ipaddress
+     */
+    protected function _get_client_ip() {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP')){
+                    var_dump(1);
+                    $ipaddress = getenv('HTTP_CLIENT_IP');}
+        else if(getenv('HTTP_X_FORWARDED_FOR')){
+                    var_dump(2);
+                    $ipaddress = getenv('HTTP_X_FORWARDED_FOR');}
+        else if(getenv('HTTP_X_FORWARDED')){
+                    var_dump(3);
+                    $ipaddress = getenv('HTTP_X_FORWARDED');}
+        else if(getenv('HTTP_FORWARDED_FOR')){
+                    var_dump(4);
+                    $ipaddress = getenv('HTTP_FORWARDED_FOR');}
+        else if(getenv('HTTP_FORWARDED')){
+                    var_dump(5);
+                    $ipaddress = getenv('HTTP_FORWARDED');}
+        else if(getenv('REMOTE_ADDR')){
+                    var_dump(6);
+                    $ipaddress = getenv('REMOTE_ADDR');}
+        else
+            $ipaddress = 'UNKNOWN';
+
+        if( $ipaddress == '::1'){
+            $ipaddress = '127.0.0.1';
+        }
+        return $ipaddress;
+    }
+
+    /**
+     * IPで緯度と経度の情報を取ります
+     * @param  string $ip ユーザーのＩＰ
+     * @return array  $details 緯度と経度の情報
+     */
+    protected function _get_loc($ip){
+        $info = array(
+            'latitude' => null,
+            'longitude' => null,
+        );
+        $json = file_get_contents("http://ipinfo.io/".$ip);
+        $details = json_decode($json);
+        if(isset($details->loc)){
+            $loc = explode(',', $details->loc);
+            $info = array(
+                'latitude' => $loc[0],
+                'longitude' => $loc[1],
+            );
+        }
+        return $info;
+    }
+    /**
+     * トッピークのコメント数を伸びます
+     * @param  string $page_id トッピークID
+     */
+    protected function updateTopicCommentCount($page_id){
+
+        //ユーザーに選択されたタイトル情報
+        $topic = Topics::findFirst(
+            array(
+            '(page_id = :page_id:)',
+            'bind' => array('page_id' => $page_id),
+            )
+        );
+
+        $topic->comment_count ++ ;
+        $topic->update_time = date('Y-m-d H:i:s');
+        $topic->save();
+    }
+
+    /**
      * ユーザーの行動をレコードします
      * @param  string $controller Controller名前
      * @param  string $action Action名前
@@ -123,5 +196,27 @@ class ControllerBase extends Controller
 
         }
 
+    }
+
+    /**
+     * 同じのURLを削除します
+     * @param  string $url
+     */
+    protected function _delbreadcrumb($url){
+        $breadcrumb = $this->session->get('breadcrumb');
+        $need_to_delete = array();
+        foreach($breadcrumb AS $index => $history_url){
+            if($history_url == $url){
+                array_push($need_to_delete, $index );
+            }
+        }
+
+        if($need_to_delete != null){
+            foreach($need_to_delete AS $delete_index){
+                unset($breadcrumb[$delete_index]);
+            }
+
+            $this->session->set('breadcrumb',$breadcrumb);
+        }
     }
 }

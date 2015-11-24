@@ -84,3 +84,15 @@ body .comment-items:hover {
 body .video-size-sm {
   width: 80%;
 }
+/* line 80, ../sass/topic.scss */
+body .no-border {
+  border: none;
+}
+/* line 83, ../sass/topic.scss */
+body .no-background-color {
+  background-color: transparent;
+}
+/* line 86, ../sass/topic.scss */
+body .have-bottom-line {
+  border-bottom: solid 2px #fff;
+}

@@ -20,8 +20,17 @@ class BackController extends ControllerBase
     		$this->response->redirect('index/index');
     	}else{
     		array_pop($breadcrumb);
-    		$redirect_url = end($breadcrumb);
-    		array_pop($breadcrumb);
+            $redirect_url = end($breadcrumb);
+            array_pop($breadcrumb);
+
+            //同じのURLを削除します
+            $last_url = end($breadcrumb);
+            while( $redirect_url == $last_url){
+                $redirect_url = $last_url;
+                array_pop($breadcrumb);
+                $last_url = end($breadcrumb);
+            }
+
     		$this->session->set('breadcrumb',$breadcrumb);
     		if($redirect_url == '/'){
     			$redirect_url = 'index/index';
