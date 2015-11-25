@@ -16,13 +16,13 @@ class CommentController extends FbMethodController
         $this->tag->setTitle('Comment');
         $this->view->title ='コメントを作る';
         $this->auth = $this->getAuth();
-    	$this->assets->addCss('css/preview.css');
+
+        $this->assets->addCss('css/jquery.urlive.css'); //
         $this->assets->addCss('css/font-awesome.min.css');
     	$this->assets->addCss('css/comment.css');
 
+        $this->assets->addJs('js/jquery.urlive.js');
     	$this->assets->addJs('js/comment.js');
-        $this->assets->addJs('js/jquery.embedly.js');
-        $this->assets->addJs('js/jquery.preview.js');
 
     	if(empty($this->auth)){
     		$this->flash->notice('ログインしてください。');
@@ -342,16 +342,19 @@ class CommentController extends FbMethodController
             return $this->response->redirect('comment/video/'.$page_id);
         }
 
-        //動画のURLを取ります
-		$videoEmbed = isset($post_data['iframe_url']) ? $post_data['iframe_url'] : null ;
-		if( $videoEmbed != null )
-		{
-			$doc = new DOMDocument();
-			@$doc->loadHTML($videoEmbed);
-			$iframe_url = 'http:'.$doc->getElementsByTagName('iframe')->item(0)->getAttribute('src');
-		}else{
-			$iframe_url = null;
-		}
+        //動画のembedのURLのウェブサイトを探します
+        if(preg_match("/vimeo/i",$post_data['video_url']) == true){
+
+            //VimeoウェブサイトのURL
+            $video_embed_url = $this->_getVimeoEmbedUrl($post_data['video_url']);
+
+        }elseif(preg_match("/youtube/i",$post_data['video_url']) == true){
+            //YoutubeウェブサイトのURL
+            $video_embed_url = $this->_getYoutubeEmbedUrl($post_data['video_url']);
+
+        }else{
+            $video_embed_url = null;
+        }
 
 		$message = $post_data['video_title'] ." \r\n\r\n ". $post_data['video_description']." \r\n\r\n ". $post_data['video_url'];
 		$post_info = array(
@@ -379,8 +382,8 @@ class CommentController extends FbMethodController
 		$comments->page_id		  	 	 = $page_id;
 		$comments->comment_id		  	 = $comment_id;
 
-		if($iframe_url != null){
-			$comments->video_url = $iframe_url;
+		if($video_embed_url != null){
+			$comments->video_url = $video_embed_url;
 		}elseif( isset($get_comment_info['link']) && $get_comment_info['link'] != null){
 			$comments->video_url = $get_comment_info['link'];
 		}else{
@@ -391,7 +394,7 @@ class CommentController extends FbMethodController
 		$comments->video_description	 = $post_data['video_description'];
 		$comments->video_thumbnail_url	 = isset($get_comment_info['attachment_image']) ? $get_comment_info['attachment_image'] : $post_data['video_url'];
 
-		if( $get_comment_info['attachment_type'] == null && $iframe_url != null ){
+		if( $get_comment_info['attachment_type'] == null && $video_embed_url != null ){
 			$comments->video_type = 'video';
 		}elseif( isset($get_comment_info['attachment_type'])){
 			$comments->video_type = $get_comment_info['attachment_type'];

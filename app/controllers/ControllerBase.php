@@ -109,6 +109,44 @@ class ControllerBase extends Controller
         }
         return $info;
     }
+
+    /**
+     * Vimeo APIでembedのURLを取ります
+     * @param  string $url URL
+     * @return  false-urlの形式は間違います
+     * @return  string embedのurlの形式
+     */
+    protected function _getVimeoEmbedUrl($url){
+        $xml_info = @file_get_contents("https://vimeo.com/api/oembed.xml?url=".$url);
+        if($xml_info === false){
+            return false;
+        }
+        $decode_xml = simplexml_load_string($xml_info);
+        if($decode_xml === false){
+            return false;
+        }
+        $doc = new DOMDocument();
+        @$doc->loadHTML($decode_xml->html);
+        $video_embed_url = $doc->getElementsByTagName('iframe')->item(0)->getAttribute('src');
+        return $video_embed_url;
+    }
+
+    /**
+     * youtubeのembedのURLを取ります
+     * @param  string $url URL
+     * @return string embedのurlの形式
+     */
+    protected function _getYoutubeEmbedUrl($url){
+        $ytarray = explode("/", $url);
+        $ytendstring = end($ytarray);
+        $ytendarray = explode("?v=", $ytendstring);
+        $ytendstring = end($ytendarray);
+        $ytendarray = explode("&", $ytendstring);
+        $ytcode = $ytendarray[0];
+
+        return 'https://www.youtube.com/embed/'.$ytcode;
+    }
+
     /**
      * トッピークのコメント数を伸びます
      * @param  string $page_id トッピークID

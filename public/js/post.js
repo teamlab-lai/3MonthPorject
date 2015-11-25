@@ -20,8 +20,6 @@ $(function() {
 	}
 
 	$('#url_preview').focus(function(){
-		//&& $(this).val() != ''
-		console.log($(this).val().length);
 		if( $(this).val().length >= 1 ){
 			hideFilePreview();
 		}else{
@@ -29,29 +27,33 @@ $(function() {
 		}
 	});
 
-	$('#url_preview').preview({
-            key: 'd1d8a01558f548dbbaccadee4a079a9f', // Sign up for a key: http://embed.ly/pricing
-            bind: true,
-            query: {
-                autoplay: 0,
-                maxwidth: 1000
-            }
-        })
-        .on('loading', function() {
-            $(this).prop('disabled', true);
-            $('#preview_url_attach').html('<i class="icon-spinner icon-spin"></i>');
-            hideFilePreview();
-            $('#clear_url').addClass('disabled');
-        }).on('loaded', function() {
-            $(this).prop('disabled', false);
-            $('#preview_url_attach').html('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>');
-            $('#clear_url').removeClass('disabled');
-            can_submit = true;
-
-        })
+	$('#url_preview').on('input propertychange', function () {
+		$('.urlive-container').urlive('remove');
+		if($('#url_preview').val().length >= 1){
+			hideFilePreview();
+		}
+	    $('#url_preview').urlive({
+	        callbacks: {
+	            onStart: function () {
+	            	disabledUrlPreviewInput();
+	            	$('.urlive-container').urlive('remove');
+	            },
+	            onSuccess: function (data) {
+	            	enabledUrlPreviewInput();
+	            	$('.urlive-container').urlive('remove');
+		            can_submit = true;
+	            },
+	            noData: function () {
+	            	console.log(3);
+	                enabledUrlPreviewInput();
+	                $('.urlive-container').urlive('remove');
+	            },
+	        }
+	    });
+	}).trigger('input');
 
     $('#preview_url_attach').bind('click', function(e) {
-        $('#url_preview').trigger('preview');
+        $('#url_preview').trigger('input');
     });
 
     $('form').submit(function(e){
@@ -122,28 +124,64 @@ function clearImgFile(){
 	showUrlPreview();
 }
 
+/**
+ *URLの画像の試写のところを隠します
+ */
 function hideUrlPreview(){
+	clearURL();
 	$('#madaha_title').hide();
     $('.url_preview').hide();
 }
 
+/**
+ *URLの画像の試写のところを見せます
+ */
 function showUrlPreview(){
 	$('#madaha_title').show();
 	$('.url_preview').show();
 }
 
+/**
+ *アプロードファイルのところを隠します
+ */
 function hideFilePreview(){
+	clearImgFile()
 	$('#madaha_title').hide();
     $('.file_upload').hide();
 }
 
+/**
+ *アプロードファイルのところを見せます
+ */
 function showFilePreview(){
 	$('#madaha_title').show();
     $('.file_upload').show();
 }
 
+/**
+ *URLのところをクリーンします
+ */
 function clearURL(){
 	$('#url_preview').val('');
-	$('.selector-wrapper').empty();
+	$('.urlive-container').empty();
 	showFilePreview();
+}
+
+/**
+ * URL画像の試写を使用禁止です
+ */
+function disabledUrlPreviewInput(){
+    $('#url_preview').prop('disabled', true);
+    $('#preview_url_attach').html('<i class="icon-spinner icon-spin"></i>');
+    hideFilePreview();
+    $('#clear_url').addClass('disabled');
+}
+
+/**
+ * URLの画像の試写を使用可能です
+ */
+function enabledUrlPreviewInput(){
+    $('#url_preview').prop('disabled', false);
+    $('#preview_url_attach').html('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>');
+    $('#clear_url').removeClass('disabled');
 }

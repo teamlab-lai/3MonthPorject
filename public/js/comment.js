@@ -27,27 +27,38 @@ $(function() {
 		clearImgFile('image_preview');
 	});
 
-	$('#video_url').preview({
-            key: 'd1d8a01558f548dbbaccadee4a079a9f', // Sign up for a key: http://embed.ly/pricing
-            bind: true,
-            query: {
-                autoplay: 0,
-                maxwidth: 1000
+    $('#video_url').on('input propertychange', function () {
+        $('.urlive-container').urlive('remove');
+         $('#video_url').urlive({
+            callbacks: {
+                onStart: function () {
+                    disabledUrlPreviewInput();
+                    $('.urlive-container').urlive('remove');
+                },
+                onSuccess: function (data) {
+                    enabledUrlPreviewInput();
+                    can_submit = true;
+                },
+                noData: function () {
+                    enabledUrlPreviewInput();
+                    $('.urlive-container').urlive('remove');
+                },
+                imgError: function () {
+                    alert('URLが間違いますたら、もう一度お願いします。');
+                    enabledUrlPreviewInput();
+                    $('.urlive-container').urlive('remove');
+                },
+                onLoadEnd: function () {
+                    enabledUrlPreviewInput();
+                    can_submit = true;
+                },
+
             }
-        })
-        .on('loading', function() {
-            $(this).prop('disabled', true);
-            $('#preview_url_attach').html('<i class="icon-spinner icon-spin"></i>');
-            $('.submit').prop('disabled', true);
-        }).on('loaded', function() {
-            $(this).prop('disabled', false);
-            $('#preview_url_attach').html('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>');
-            $('.submit').prop('disabled', false);
-            can_submit = true;
-        })
+        });
+    }).trigger('input');
 
     $('#preview_url_attach').bind('click', function(e) {
-        $('#video_url').trigger('preview');
+        $('#video_url').trigger('input');
     });
 
     $('#video_form').submit(function(e){
@@ -72,7 +83,7 @@ $(function() {
 
 function clearURL(){
 	$('#video_url').val('');
-	$('.selector-wrapper').empty();
+	$('.urlive-container').empty();
     $('.submit').prop('disabled', true);
 }
 
@@ -97,4 +108,22 @@ function readImg(input , image_preview_id) {
  */
 function clearImgFile(image_preview_id){
 	$('#'+image_preview_id).attr('src', '#');
+}
+
+/**
+ * URL画像の試写を使用禁止です
+ */
+function disabledUrlPreviewInput(){
+    $('#video_url').prop('disabled', true);
+    $('#preview_url_attach').html('<i class="icon-spinner icon-spin"></i>');
+    $('.submit').prop('disabled', true);
+}
+
+/**
+ * URLの画像の試写を使用可能です
+ */
+function enabledUrlPreviewInput(){
+    $('#video_url').prop('disabled', false);
+    $('#preview_url_attach').html('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>');
+    $('.submit').prop('disabled', false);
 }

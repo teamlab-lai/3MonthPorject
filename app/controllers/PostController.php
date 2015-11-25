@@ -16,13 +16,14 @@ class PostController extends FbMethodController
         $this->tag->setTitle('Post');
         $this->view->title ='まとめを作る';
         $this->auth = $this->getAuth();
-    	$this->assets->addCss('css/preview.css');
+
+    	$this->assets->addCss('css/jquery.urlive.css');
         $this->assets->addCss('css/font-awesome.min.css');
     	$this->assets->addCss('css/post.css');
 
+        $this->assets->addJs('js/jquery.urlive.js');
         $this->assets->addJs('js/post.js');
-        $this->assets->addJs('js/jquery.embedly.js');
-        $this->assets->addJs('js/jquery.preview.js');
+
         parent::initialize();
     }
 
@@ -121,15 +122,18 @@ class PostController extends FbMethodController
 			$method = '/feed';
 			$post_info['link'] = $post_data['url_preview'];
 
-	        //動画のURLを取ります
-			$videoEmbed = isset($post_data['iframe_url']) ? $post_data['iframe_url'] : null ;
-			if( $videoEmbed != null )
-			{
-				$doc = new DOMDocument();
-				@$doc->loadHTML($videoEmbed);
-				$iframe_url = 'http:'.$doc->getElementsByTagName('iframe')->item(0)->getAttribute('src');
+			//動画のembedのURLのウェブサイトを探します
+			if(preg_match("/vimeo/i",$post_data['url_preview']) == true){
+
+				//VimeoウェブサイトのURL
+				$video_embed_url = $this->_getVimeoEmbedUrl($post_data['url_preview']);
+
+			}elseif(preg_match("/youtube/i",$post_data['url_preview']) == true){
+				//YoutubeウェブサイトのURL
+				$video_embed_url = $this->_getYoutubeEmbedUrl($post_data['url_preview']);
+
 			}else{
-				$iframe_url = null;
+				$video_embed_url = null;
 			}
 		}
 
@@ -193,7 +197,7 @@ class PostController extends FbMethodController
 			$topics->video_url		  	 = $get_post_info['link'];
 			$topics->video_thumbnail_url = $get_post_info['attachment_image'];
 		}
-		$topics->embed_video_url 	 = ( isset($iframe_url) && $iframe_url != null ) ? $iframe_url : null;
+		$topics->embed_video_url 	 = ( isset($video_embed_url) && $video_embed_url != null ) ? $video_embed_url : null;
  		$topics->description		 = $this->request->getPost("description", "striptags");
 		$topics->ip_location		 = $ipaddress;
 		$topics->longitude			 = ( isset($loc['longitude']) && $loc['longitude'] != null) ? $loc['longitude'] : null;

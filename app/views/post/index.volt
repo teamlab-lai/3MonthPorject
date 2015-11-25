@@ -42,9 +42,8 @@
 										</button>
 									</div>
 								</div>
-								<div class="col-xs-12 form-group no-padding">
-									<div class="selector-wrapper"></div>
-								</div>
+								<div class="urlive-container"></div>
+
 							{% else %}
 								<div class="col-xs-5 form-group no-padding">
 									<div class="col-xs-7 no-padding">

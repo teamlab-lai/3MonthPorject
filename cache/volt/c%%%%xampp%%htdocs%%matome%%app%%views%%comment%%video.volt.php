@@ -16,6 +16,7 @@
 </ul>
 	<?php echo $this->tag->form(array('comment/createVideo/' . $topic->page_id, 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'video_form')); ?>
 		<fieldset>
+
 			<div class="tab-content">
 		        <div class="tab-pane active" id="video_area">
 		            <div class="row padding-top-down-10">
@@ -36,9 +37,7 @@
 										</button>
 									</div>
 								</div>
-								<div class="col-xs-12 form-group">
-									<div class="selector-wrapper"></div>
-								</div>
+
 							<?php } else { ?>
 								<div class="col-xs-12 ">
 									<?php echo $element; ?>
@@ -49,6 +48,7 @@
 					</div>
 		        </div>
 		    </div>
+			<div class="urlive-container"></div>
 		    <div class="col-xs-12 text-center">
 		    	<hr>
 				<div class="control-group ">
