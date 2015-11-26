@@ -13,6 +13,8 @@ class TopicController extends FbMethodController
     {
         $this->tag->setTitle('Topic');
         $this->assets->addCss('css/topic.css');
+        $this->assets->addCss('css/font-awesome.min.css');
+        $this->assets->addJs('js/myFavorite.js');
         $this->assets->addJs('js/topic.js');
         $this->view->auth = $this->auth = $this->getAuth();
         parent::initialize();

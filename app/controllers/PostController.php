@@ -53,7 +53,7 @@ class PostController extends FbMethodController
             		//サイズを検察します
                     if($file->getSize() > 1024000){
                     	$this->flash->error('1024KB未満のファイルだけアップロードできます。');
-                    	return $this->forward('post/index');
+                    	return $this->response->redirect('post/index');
                     }else{
 
                     	//アップロードフォルダーを検察します
@@ -68,7 +68,7 @@ class PostController extends FbMethodController
 	                		}catch(Exception $ex) {
 							   //echo "Error: " . $ex->getMessage();
 							   $this->flash->error('エラーがありますから、もう一度やり直してください。');
-							   return $this->forward('post/index');
+							   return $this->response->redirect('post/index');
 							}
 						}
 
@@ -82,12 +82,12 @@ class PostController extends FbMethodController
 						}catch(Exception $ex) {
 						   //echo "Error: " . $ex->getMessage();
 						   $this->flash->error('エラーがありますから、もう一度やり直してください。');
-						   return $this->forward('post/index');
+						   return $this->response->redirect('post/index');
 						}
                     }
                 }else{
                 	$this->flash->error('JPG、JPEG、GIF、PNGファイルだけアップロードできます');
-                	return $this->forward('post/index');
+                	return $this->response->redirect('post/index');
                 }
             }
     	}
@@ -99,7 +99,7 @@ class PostController extends FbMethodController
             foreach ($form->getMessages() as $message) {
                 $this->flash->error($message);
             }
-            return $this->forward('post/index');
+            return $this->response->redirect('post/index');
         }
 
         //FB APIで投稿する機能
@@ -155,10 +155,10 @@ class PostController extends FbMethodController
 		  $responses = $this->fb->sendBatchRequest($batch);
 		} catch(Facebook\Exceptions\FacebookResponseException $e) {
 			$this->flash->error('エラーがありますから、もう一度やり直してください。');
-		 	return $this->forward('post/index');
+		 	return $this->response->redirect('post/index');
 		} catch(Facebook\Exceptions\FacebookSDKException $e) {
 			$this->flash->error('エラーがありますから、もう一度やり直してください。');
-			return $this->forward('post/index');
+			return $this->response->redirect('post/index');
 		}
 
 		foreach ($responses as $key => $response) {
@@ -170,7 +170,7 @@ class PostController extends FbMethodController
 				var_dump($e->getResponse());
 				*/
 				$this->flash->error('エラーがありますから、もう一度やり直してください。');
-				return $this->forward('post/index');
+				return $this->response->redirect('post/index');
 		  } else {
 		  		$post_response = json_decode($response->getBody());
 		  		if($type == 'upload'){
@@ -210,7 +210,7 @@ class PostController extends FbMethodController
 			 	$this->flash->error($message);
             }
 
-            return $this->forward('post/index');
+            return $this->response->redirect('post/index');
     	}
     	$this->flash->success('投稿しました');
   		$this->response->redirect('index/index');

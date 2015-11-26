@@ -29,6 +29,7 @@ $(function() {
 
     $('#video_url').on('input propertychange', function () {
         $('.urlive-container').urlive('remove');
+        can_submit = false;
          $('#video_url').urlive({
             callbacks: {
                 onStart: function () {
@@ -61,15 +62,21 @@ $(function() {
         $('#video_url').trigger('input');
     });
 
-    $('#video_form').submit(function(e){
-        if($('#video_url').val().length > 0){
+    $('#comment_form').submit(function(e){
+        $( ".js-submit" ).hide();
+        //var loading_btn = '<button type="button" class="btn btn-primary js-submit-loading"><span class="spinner"><i class="icon-spin icon-refresh"></i></span></button>';
+        var loading_btn = '<button type="button" class="btn btn-primary js-submit-loading">待ってください...</button>';
+        $( ".js-submit" ).after(loading_btn);
+        if( $('#video_url').length >= 1  &&  $('#video_url').val().length > 0){
             if( can_submit == false){
-                $('#video_url').trigger('preview');
+                $('#video_url').trigger('input');
+                $('.js-submit-loading').remove();
                 return false;
             }else{
                 return true;
             }
         }
+        return true;
     });
 
 	/**

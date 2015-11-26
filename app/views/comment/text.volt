@@ -14,7 +14,7 @@
   	{{ link_to("javascript:void(0);" , 'テキスト', false) }}
   </li>
 </ul>
-	{{ form('comment/createText/' ~ topic.page_id , 'method': 'post', 'enctype': "multipart/form-data") }}
+	{{ form('comment/createText/' ~ topic.page_id , 'method': 'post', 'enctype': "multipart/form-data",'id':"comment_form") }}
 		<fieldset>
 			<div class="tab-content">
 		        <div class="tab-pane active" id="text_area">
@@ -30,7 +30,7 @@
 		    </div>
 		    <div class="col-xs-12 text-center">
 				<div class="control-group">
-				    {{ submit_button("投稿する", "class": "btn btn-primary") }}
+				    {{ submit_button("投稿する", "class": "btn btn-primary js-submit") }}
 				</div>
 		    </div>
 		</fieldset>

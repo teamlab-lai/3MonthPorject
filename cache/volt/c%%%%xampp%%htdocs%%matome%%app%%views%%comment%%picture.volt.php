@@ -14,7 +14,7 @@
   	<?php echo $this->tag->linkTo(array('comment/text/' . $topic->page_id, 'テキスト')); ?>
   </li>
 </ul>
-	<?php echo $this->tag->form(array('comment/createPicture/' . $topic->page_id, 'method' => 'post', 'enctype' => 'multipart/form-data')); ?>
+	<?php echo $this->tag->form(array('comment/createPicture/' . $topic->page_id, 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'comment_form')); ?>
 		<fieldset>
 			<div class="tab-content">
 		        <div class="tab-pane active" id="pic_area">
@@ -53,7 +53,7 @@
 		    </div>
 		    <div class="col-xs-12 text-center">
 				<div class="control-group">
-				    <?php echo $this->tag->submitButton(array('投稿する', 'class' => 'btn btn-primary')); ?>
+				    <?php echo $this->tag->submitButton(array('投稿する', 'class' => 'btn btn-primary js-submit')); ?>
 				</div>
 		    </div>
 		</fieldset>

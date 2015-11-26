@@ -14,7 +14,7 @@
   	<?php echo $this->tag->linkTo(array('comment/text/' . $topic->page_id, 'テキスト')); ?>
   </li>
 </ul>
-	<?php echo $this->tag->form(array('comment/createVideo/' . $topic->page_id, 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'video_form')); ?>
+	<?php echo $this->tag->form(array('comment/createVideo/' . $topic->page_id, 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'comment_form')); ?>
 		<fieldset>
 
 			<div class="tab-content">
@@ -52,7 +52,7 @@
 		    <div class="col-xs-12 text-center">
 		    	<hr>
 				<div class="control-group ">
-				    <?php echo $this->tag->submitButton(array('投稿する', 'class' => 'btn btn-primary submit')); ?>
+				    <?php echo $this->tag->submitButton(array('投稿する', 'class' => 'btn btn-primary js-submit')); ?>
 				</div>
 		    </div>
 		</fieldset>

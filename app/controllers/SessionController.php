@@ -133,11 +133,11 @@ class SessionController extends FbMethodController
             'isExpired'       =>null,
             'isLongLived'     =>false,
             'isAppAccessToken'=>false,
-            'isAdmin'         =>true,
-            'adminId'         =>'729669407057443',
-            'adminName'       =>'票券團',
+            'isAdmin'         =>false,
+            'adminId'         =>null,
+            'adminName'       =>null,
             'adminPicture'    =>null,
-            'adminToken'      =>'CAAI9eKdjJYEBAFlquQUgyjLbGpZCtnavTVS0cPOa6baOBjfwcb8LsV3QJyvrPA6N2XIM48eYwCi5RiiaX4KzAIHZB2v87DmYCqQCiGO3rrn69iRCNZCyxrDYUNPpZCgJCnjEV7oizlaIg9OnJ6ob61PPSTOQQeZCpwSkMa3e2KlNOXXJVolJC',
+            'adminToken'      =>null,
         ));
         $this->response->redirect('index/index');
     }

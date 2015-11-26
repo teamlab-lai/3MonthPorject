@@ -72,10 +72,9 @@
 
 		{% endfor %}
 
-		<div class="control-group">
-		    {{ submit_button("投稿する", "class": "btn btn-primary submit") }}
+		<div class="control-group ">
+		    {{ submit_button("投稿する", "class": "btn btn-primary js-submit") }}
 		</div>
-
 	</fieldset>
 
 </form>

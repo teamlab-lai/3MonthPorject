@@ -27,6 +27,15 @@
 					<h6 class="topic-title visible-xs" align="left">{{ topic.title }}</h6>
 					<h2 class="topic-title hidden-xs" align="left">{{ topic.title }}</h2>
 				</div>
+
+				{% if topic.embed_video_url != null %}
+					<div class="col-xs-12">
+						<div class="embed-responsive embed-responsive-16by9">
+					        <iframe class="embed-responsive-item" src="{{ topic.embed_video_url }}"></iframe>
+					    </div>
+				    </div>
+				{% endif %}
+
 				<div class="col-xs-12 no-padding font-gray">
 					<small class="visible-xs">{{ topic.description }}</small>
 					<span class="hidden-xs">{{ topic.description }}</span>
@@ -69,9 +78,9 @@
 	<div class="col-xs-12 padding-10 font-gray">
 		<div class="col-xs-12 " id="fb_like_btn">
 			{% if is_liked == true %}
-				<a href="javascript:void(0);" class="font-gray like-button js-dislike" data-id="{{ topic.page_id }}"><small>いいね!を取り消す</small></a>
+				<a href="javascript:void(0);"  data-loading-text="Loading..." class="font-gray like-button js-dislike" data-id="{{ topic.page_id }}"><small>いいね!を取り消す</small></a>
 			{% else %}
-				<a href="javascript:void(0);" class="font-gray like-button js-like" data-id="{{ topic.page_id }}"><small>いいね!</small></a>
+				<a href="javascript:void(0);" data-loading-text="Loading..." class="font-gray like-button js-like" data-id="{{ topic.page_id }}"><small>いいね!</small></a>
 			{% endif %}
 		</div>
 		<div class="col-xs-12" id="likes_area">
@@ -87,12 +96,12 @@
 			<ul class="nav navbar-nav" >
 				<li id="fav_controller">
 					{% if is_fav == false %}
-						<a href="javascript:void(0);" id="add_fav" onclick="addFav('{{ topic.page_id }}');">
+						<a href="javascript:void(0);" class="js-add-fav" data-id='{{ topic.page_id }}'>
 							<i class="pe-7s-star "></i>
 							<p class="sm-size">お気に入り追加</p>
 						</a>
 					{% else %}
-						<a href="javascript:void(0);" id="del_fav" onclick="delFav('{{ topic.page_id }}');">
+						<a href="javascript:void(0);" class="js-del-fav" data-id='{{ topic.page_id }}'>
 							<i class="pe-7s-star is-fav"></i>
 							<p class="sm-size">お気に入り削除</p>
 						</a>

@@ -14,7 +14,7 @@
   	{{ link_to("comment/text/" ~ topic.page_id , 'テキスト') }}
   </li>
 </ul>
-	{{ form('comment/createVideo/' ~ topic.page_id, 'method': 'post', 'enctype': "multipart/form-data" , 'id':"video_form") }}
+	{{ form('comment/createVideo/' ~ topic.page_id, 'method': 'post', 'enctype': "multipart/form-data" , 'id':"comment_form") }}
 		<fieldset>
 
 			<div class="tab-content">
@@ -52,7 +52,7 @@
 		    <div class="col-xs-12 text-center">
 		    	<hr>
 				<div class="control-group ">
-				    {{ submit_button("投稿する", "class": "btn btn-primary submit") }}
+				    {{ submit_button("投稿する", "class": "btn btn-primary js-submit") }}
 				</div>
 		    </div>
 		</fieldset>

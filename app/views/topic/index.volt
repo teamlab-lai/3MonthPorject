@@ -147,12 +147,12 @@
 				{% if auth != null %}
 					<li id="fav_controller">
 						{% if is_fav == false %}
-							<a href="javascript:void(0);" id="add_fav" onclick="addFav('{{ topic.page_id }}');">
+							<a href="javascript:void(0);" class="js-add-fav" data-id='{{ topic.page_id }}' >
 								<i class="pe-7s-star "></i>
 								<p class="sm-size">お気に入り追加</p>
 							</a>
 						{% else %}
-							<a href="javascript:void(0);" id="del_fav" onclick="delFav('{{ topic.page_id }}');">
+							<a href="javascript:void(0);" class="js-del-fav" data-id='{{ topic.page_id }}'>
 								<i class="pe-7s-star is-fav"></i>
 								<p class="sm-size">お気に入り削除</p>
 							</a>
