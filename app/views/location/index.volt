@@ -11,7 +11,10 @@
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 10,
 			center: new google.maps.LatLng({{ center_location }}),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			streetViewControl:false,
+			mapTypeControl:false,
+
 		});
 
 		var infowindow = new google.maps.InfoWindow();
