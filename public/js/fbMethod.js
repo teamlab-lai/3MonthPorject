@@ -113,7 +113,7 @@ function FbMethod() {
             },
 
         });
-    },
+    }
 
     function giveLikeSuccess(result , comment_id) {
         var html = "<a href=\"javascript:void(0);\" class=\"font-gray like-button js-dislike\" data-id=\""+comment_id+"\"><small>いいね!を取り消す</small></a>";
