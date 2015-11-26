@@ -1,13 +1,4 @@
 {{ content() }}
-<style type="text/css">
-			.comment-message {
-			display : inline-block;
-			overflow : hidden;
-			text-overflow : ellipsis;
-			white-space : nowrap;
-			width : 100%;
-		}
-</style>
 <div class="row ">
 	<div class="col-xs-12">
 		<div class="col-xs-12 color-white margin-top-10 padding-10">
@@ -156,7 +147,7 @@
 		<div class="list-group-item no-border no-background-color js-new-comment-block">
 			<div class="row ">
 				<div class="col-xs-3">
-					<a href="#" class="thumbnail no-margin no-border ">
+					<a href="javascript:void(0);" class="thumbnail no-margin no-border ">
 						{% if user_info['user_photo'] == null %}
 							<img src="/matome/img/default-page.png" alt="">
 						{% else %}

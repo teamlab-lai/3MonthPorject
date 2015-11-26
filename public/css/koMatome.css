@@ -69,3 +69,11 @@ body .row .caption i {
 body .row .like-button:hover {
   cursor: pointer;
 }
+/* line 58, ../sass/koMatome.scss */
+body .row .comment-message {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
