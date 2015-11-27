@@ -1,4 +1,5 @@
 var can_submit = false;
+var can_detect_url = false;
 $(function() {
 
 	/**
@@ -26,8 +27,28 @@ $(function() {
 			showFilePreview();
 		}
 	});
+	var typingTimer;                //timer identifier
+	var doneTypingInterval = 2000;  //time in ms, 5 second for example
+
+	$('#url_preview').keyup(function(){
+		can_detect_url = false;
+	    clearTimeout(typingTimer);
+	    if ($('#url_preview').val) {
+	    	typingTimer = setTimeout(startDetectUrl, doneTypingInterval);
+	    }else{
+	    	can_detect_url = false;
+	    }
+	});
+
+    $('#url_preview').keydown(function(){
+        can_detect_url = false;
+    });
 
 	$('#url_preview').on('input propertychange', function () {
+		if(can_detect_url == false){
+			$('#url_preview').trigger('keyup');
+			return;
+		}
 		$('.urlive-container').urlive('remove');
 		if($('#url_preview').val().length >= 1){
 			hideFilePreview();
@@ -69,6 +90,7 @@ $(function() {
     		if( can_submit == false){
 	    		$('#url_preview').trigger('input');
 	    		$('.js-submit-loading').remove();
+	    		$( ".js-submit" ).show();
 	    		return false;
 	    	}
 	    }
@@ -82,6 +104,11 @@ $(function() {
 	});
 
 });
+
+function startDetectUrl(){
+	can_detect_url = true;
+	$('#url_preview').trigger('input');
+}
 
 /**
  * アップロードの画像を取ります

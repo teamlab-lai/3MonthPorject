@@ -1,4 +1,5 @@
 var can_submit = false;
+var can_detect_url = false;
 $(function() {
 
     $('.komatome-tab').click(function(event){
@@ -27,7 +28,28 @@ $(function() {
 		clearImgFile('image_preview');
 	});
 
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 2000;  //time in ms, 5 second for example
+
+    $('#video_url').keyup(function(){
+        can_detect_url = false;
+        clearTimeout(typingTimer);
+        if ($('#video_url').val) {
+            typingTimer = setTimeout(startDetectUrl, doneTypingInterval);
+        }else{
+            can_detect_url = false;
+        }
+    });
+
+    $('#video_url').keydown(function(){
+        can_detect_url = false;
+    });
+
     $('#video_url').on('input propertychange', function () {
+        if(can_detect_url == false){
+            $('#video_url').trigger('keyup');
+            return;
+        }
         $('.urlive-container').urlive('remove');
         can_submit = false;
          $('#video_url').urlive({
@@ -71,6 +93,7 @@ $(function() {
             if( can_submit == false){
                 $('#video_url').trigger('input');
                 $('.js-submit-loading').remove();
+                $( ".js-submit" ).show();
                 return false;
             }else{
                 return true;
@@ -86,7 +109,10 @@ $(function() {
 		clearURL();
 	});
 });
-
+function startDetectUrl(){
+    can_detect_url = true;
+    $('#video_url').trigger('input');
+}
 
 function clearURL(){
 	$('#video_url').val('');
