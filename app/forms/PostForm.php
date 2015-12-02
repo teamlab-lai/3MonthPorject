@@ -60,13 +60,15 @@ class PostForm extends Form
         $url_preview->addValidators(array(
             new UrlValidator(array(
                'message' => 'URLの形式を入力してください',
-               'allowEmpty' => true
+               'allowEmpty' => true,
+               'class' => 'form-control'
             ))
         ));
         $this->add($url_preview);
 
         $file_upload = new File("file_upload",array(
             'accept' => 'image/*',
+            'class' => 'form-control'
             ));
 
         $file_upload->setLabel("file upload");

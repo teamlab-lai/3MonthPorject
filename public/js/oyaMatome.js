@@ -24,3 +24,36 @@ $(document).ready(function(){
 		return true;
 	});
 });
+
+
+/**
+ * FBトッピークを削除します
+ * @param  string page_id FBトッピークID
+ */
+function delMatome(page_id){
+    var loading = Ladda.create( document.querySelector( '.btn-ok' ) );
+	loading.start();
+	$.ajax({
+		url: '/matome/post/delete',
+		data: {
+			'page_id':page_id
+		},
+		type: 'POST',
+		success: function(result) {
+
+			result = $.parseJSON(result);
+			var status = result.status;
+			if(status != 'OK'){
+				alert(result.messages);
+				loading.stop();
+				return;
+			}else{
+				window.location.replace(result.redirect_url);
+			}
+		},
+		error: function() {
+			alert('エラーがありますから、もう一度お願いします。');
+		},
+
+	});
+}

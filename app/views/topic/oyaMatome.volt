@@ -126,7 +126,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">いいえ</button>
-                <a class="btn btn-danger btn-ok"  onclick="delMatome('{{ topic.page_id }}');">はい</a>
+                <a href="javascript:void(0);" class="btn btn-danger btn-ok ladda-button" data-style="zoom-in"><span class="ladda-label" onclick="delMatome('{{ topic.page_id }}');">はい</span></a>
             </div>
         </div>
     </div>

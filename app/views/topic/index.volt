@@ -96,14 +96,13 @@
 			<div class="list-group-item no-border no-background-color have-bottom-line comment-items" data-link='{{ url('topic/koMatome/' ~ comment.comment_id) }}'>
 				<div class="row text-center" >
 				{% if comment.url_comment != null  %}
-					{{ link_to(comment.url_comment ,"class":"font-gray md-size", comment.url_comment ,false )  }}
+					<h6>{{ comment.url_comment }}</h6>
+					{{ link_to(comment.url_comment ,"class":"font-gray md-size", 'リンクをオープンする' ,false )  }}
 				{% elseif comment.picture_url != null %}
 					<h6>{{ comment.picture_title }}</h6>
-
 						<a href="javascript:void(0);" class="thumbnail">
 					    	<img src="{{ comment.picture_thumbnail_url }}" alt="">
 					    </a>
-
 				{% elseif comment.video_url != null %}
 					<h6>{{ comment.video_title }}</h6>
 					{% if comment.video_type == 'video'  %}
@@ -116,7 +115,7 @@
 								<img class="center-pic" src = {{ comment.video_thumbnail_url }} alt = "">
 							</div>
 						{% endif %}
-						{{ link_to(comment.video_url ,"class":"font-gray md-size", "リング" ,false )  }}
+						{{ link_to(comment.video_url ,"class":"font-gray md-size", "リングを" ,false )  }}
 					{% else %}
 						<div class="col-xs-12">
 							<a href="javascript:void(0);" class="thumbnail">
@@ -125,7 +124,7 @@
 						</div>
 					{% endif  %}
 				{% elseif comment.text_comment != null %}
-					<small>{{ comment.text_comment }}</small>
+					<h6>{{ comment.text_comment }}</h6>
 				{% else %}
 
 				{% endif %}

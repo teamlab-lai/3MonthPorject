@@ -53,7 +53,7 @@
 		    </div>
 		    <div class="col-xs-12 text-center">
 				<div class="control-group">
-				    {{ submit_button("投稿する", "class": "btn btn-primary js-submit") }}
+					<button class="btn btn-primary ladda-button js-submit" data-style="zoom-in"><span class="ladda-label">投稿する</span></button>
 				</div>
 		    </div>
 		</fieldset>

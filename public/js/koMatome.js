@@ -52,3 +52,36 @@ function enabledCommentSubmitBtn(){
 	$('.js-comment-submit').removeClass('disabled');
 	$('.js-comment-submit').html('<span class="glyphicon js-input-submit-icon glyphicon-pencil" aria-hidden="true"></span>');
 }
+
+/**
+ * FBコメントページを削除します
+ * @param  string comment_id FBコメントID
+ */
+function delComment(comment_id){
+	var loading = Ladda.create( document.querySelector( '.btn-ok' ) );
+	loading.start();
+	$.ajax({
+		url: '/matome/comment/delete',
+		data: {
+			'comment_id':comment_id
+		},
+		type: 'POST',
+		success: function(result) {
+
+			result = $.parseJSON(result);
+			var status = result.status;
+			if(status != 'OK'){
+				alert(result.messages);
+				loading.stop();
+				return;
+			}else{
+				window.location.replace(result.redirect_url);
+			}
+
+		},
+		error: function() {
+			alert('エラーがありますから、もう一度お願いします。');
+		},
+
+	});
+}

@@ -68,3 +68,7 @@ body .navbar-inverse .nav-collapse {
 body .navbar-fixed-top div {
   line-height: 40px;
 }
+/* line 70, ../sass/bootstrap.rewrite.scss */
+body .icon-large.large-2x {
+  font-size: 2.5em;
+}

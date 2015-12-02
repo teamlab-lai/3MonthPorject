@@ -3,6 +3,8 @@ $(function() {
 	var my_favorite = new myFavorite();
 
     $('.comment-items').on('click', function() {
+    	//$(this).hide();
+    	//$(this).after('<div class="col-xs-12 text-center"><i class="icon-spinner icon-spin icon-large large-2x"></i></div>');
         window.location.href = $(this).data('link');
     });
 
@@ -16,62 +18,4 @@ $(function() {
 	});
 });
 
-/**
- * FBトッピークを削除します
- * @param  string page_id FBトッピークID
- */
-function delMatome(page_id){
-	$.ajax({
-		url: '/matome/post/delete',
-		data: {
-			'page_id':page_id
-		},
-		type: 'POST',
-		success: function(result) {
 
-			result = $.parseJSON(result);
-			var status = result.status;
-			if(status != 'OK'){
-				alert(result.messages);
-				return;
-			}else{
-				window.location.replace(result.redirect_url);
-			}
-
-		},
-		error: function() {
-			alert('エラーがありますから、もう一度お願いします。');
-		},
-
-	});
-}
-
-/**
- * FBコメントページを削除します
- * @param  string comment_id FBコメントID
- */
-function delComment(comment_id){
-	$.ajax({
-		url: '/matome/comment/delete',
-		data: {
-			'comment_id':comment_id
-		},
-		type: 'POST',
-		success: function(result) {
-
-			result = $.parseJSON(result);
-			var status = result.status;
-			if(status != 'OK'){
-				alert(result.messages);
-				return;
-			}else{
-				window.location.replace(result.redirect_url);
-			}
-
-		},
-		error: function() {
-			alert('エラーがありますから、もう一度お願いします。');
-		},
-
-	});
-}

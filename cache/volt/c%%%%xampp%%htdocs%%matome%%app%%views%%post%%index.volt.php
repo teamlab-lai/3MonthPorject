@@ -73,7 +73,7 @@
 		<?php } ?>
 
 		<div class="control-group ">
-		    <?php echo $this->tag->submitButton(array('投稿する', 'class' => 'btn btn-primary js-submit')); ?>
+			<button class="btn btn-primary ladda-button js-submit" data-style="zoom-in"><span class="ladda-label">投稿する</span></button>
 		</div>
 	</fieldset>
 

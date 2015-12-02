@@ -85,15 +85,12 @@ $(function() {
     });
 
     $('#comment_form').submit(function(e){
-        $( ".js-submit" ).hide();
-        //var loading_btn = '<button type="button" class="btn btn-primary js-submit-loading"><span class="spinner"><i class="icon-spin icon-refresh"></i></span></button>';
-        var loading_btn = '<button type="button" class="btn btn-primary js-submit-loading">待ってください...</button>';
-        $( ".js-submit" ).after(loading_btn);
+       var loading = Ladda.create( document.querySelector( '.js-submit' ) );
+       loading.start();
         if( $('#video_url').length >= 1  &&  $('#video_url').val().length > 0){
             if( can_submit == false){
                 $('#video_url').trigger('input');
-                $('.js-submit-loading').remove();
-                $( ".js-submit" ).show();
+                loading.stop();
                 return false;
             }else{
                 return true;
