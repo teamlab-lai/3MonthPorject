@@ -9,7 +9,7 @@
         <div class="col-xs-4 ">
             <?php if (isset($title)) { ?>
                 <p class="text-center visible-xs small-size"><?php echo $title; ?></p>
-                <h2 class="text-center hidden-xs"><?php echo $title; ?></h2>
+                <h2 class="text-center hidden-xs no-margin"><?php echo $title; ?></h2>
             <?php } ?>
         </div>
         <div class="col-xs-4">

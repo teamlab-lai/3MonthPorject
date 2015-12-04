@@ -64,7 +64,7 @@ class FbMethodController extends ControllerBase
             }
 
             //ADMINレベルをチェックします
-            $admin_user_response = $this->fb->get('/me/accounts?fields=access_token,perms,id,category,cover,name');
+            $admin_user_response = $this->fb->get('/me/accounts?fields=access_token,perms,id,category,cover,name,picture');
             $amdinUserNode = $admin_user_response->getDecodedBody();
             $adminInfo = array(
               'is_admin'=>false,
@@ -73,7 +73,6 @@ class FbMethodController extends ControllerBase
               'picture'=>null,
               'token'=>null,
               );
-
             foreach($amdinUserNode['data'] AS $index=>$fanPageInfo){
               if($fanPageInfo['id'] == $this->FbPageId){
                 if(in_array('CREATE_CONTENT', $fanPageInfo['perms'])){
@@ -81,7 +80,8 @@ class FbMethodController extends ControllerBase
                     'is_admin'=>true,
                     'id'=>$fanPageInfo['id'],
                     'name'=>$fanPageInfo['name'],
-                    'picture'=>(isset($fanPageInfo['cover']['source'])) ? $fanPageInfo['cover']['source'] : null,
+                    'picture'=>(isset($fanPageInfo['picture']['data']['url'])) ? $fanPageInfo['picture']['data']['url'] : null,
+                    //'picture'=>(isset($fanPageInfo['cover']['source'])) ? $fanPageInfo['cover']['source'] : null,
                     'token'=>$fanPageInfo['access_token'],
                     );
                 }

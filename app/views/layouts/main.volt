@@ -9,7 +9,7 @@
         <div class="col-xs-4 ">
             {% if title is defined %}
                 <p class="text-center visible-xs small-size">{{ title }}</p>
-                <h2 class="text-center hidden-xs">{{ title }}</h2>
+                <h2 class="text-center hidden-xs no-margin">{{ title }}</h2>
             {% endif %}
         </div>
         <div class="col-xs-4">

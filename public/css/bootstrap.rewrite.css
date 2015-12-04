@@ -3,11 +3,15 @@ body {
   background-color: #FAFAFA;
   padding-top: 80px;
 }
-/* line 4, ../sass/bootstrap.rewrite.scss */
+/* line 2, ../sass/bootstrap.rewrite.scss */
+body .no-margin {
+  margin: 0px;
+}
+/* line 7, ../sass/bootstrap.rewrite.scss */
 body .container {
   padding-bottom: 100px;
 }
-/* line 9, ../sass/bootstrap.rewrite.scss */
+/* line 12, ../sass/bootstrap.rewrite.scss */
 body .navbar .inner-nav .list-inline {
   position: relative;
   left: 50%;
@@ -15,7 +19,7 @@ body .navbar .inner-nav .list-inline {
   margin-right: 0;
   margin-left: 0;
 }
-/* line 16, ../sass/bootstrap.rewrite.scss */
+/* line 19, ../sass/bootstrap.rewrite.scss */
 body .navbar .inner-nav .list-inline a {
   color: #fff;
   position: relative;
@@ -25,20 +29,20 @@ body .navbar .inner-nav .list-inline a {
   list-style: none;
   padding: 6px;
 }
-/* line 24, ../sass/bootstrap.rewrite.scss */
+/* line 27, ../sass/bootstrap.rewrite.scss */
 body .navbar .inner-nav .list-inline a span {
   font-size: 1.5em;
 }
-/* line 31, ../sass/bootstrap.rewrite.scss */
+/* line 34, ../sass/bootstrap.rewrite.scss */
 body .white-color {
   color: white;
 }
-/* line 33, ../sass/bootstrap.rewrite.scss */
+/* line 36, ../sass/bootstrap.rewrite.scss */
 body .white-color .small-size {
   line-height: 40px;
   font-size: 0.7em;
 }
-/* line 39, ../sass/bootstrap.rewrite.scss */
+/* line 42, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav {
   background-color: #222;
   text-align: center;
@@ -47,28 +51,28 @@ body .navbar-inverse .navbar-nav {
   width: 100%;
   text-align: center;
 }
-/* line 46, ../sass/bootstrap.rewrite.scss */
+/* line 49, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav > li {
   float: none;
   display: inline-block;
 }
-/* line 51, ../sass/bootstrap.rewrite.scss */
+/* line 54, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav .active > a, body .navbar-inverse .navbar-nav .active a:hover, body .navbar-inverse .navbar-nav .active a:focus {
   background-color: transparent;
 }
-/* line 55, ../sass/bootstrap.rewrite.scss */
+/* line 58, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .navbar-nav a {
   font-size: 80%;
 }
-/* line 60, ../sass/bootstrap.rewrite.scss */
+/* line 63, ../sass/bootstrap.rewrite.scss */
 body .navbar-inverse .nav-collapse {
   text-align: center;
 }
-/* line 65, ../sass/bootstrap.rewrite.scss */
+/* line 68, ../sass/bootstrap.rewrite.scss */
 body .navbar-fixed-top div {
   line-height: 40px;
 }
-/* line 70, ../sass/bootstrap.rewrite.scss */
+/* line 73, ../sass/bootstrap.rewrite.scss */
 body .icon-large.large-2x {
   font-size: 2.5em;
 }

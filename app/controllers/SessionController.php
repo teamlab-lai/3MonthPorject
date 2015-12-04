@@ -127,8 +127,8 @@ class SessionController extends FbMethodController
        $this->session->set('matome_auth', array(
             'id'              =>'1082845298392991',
             'name'            =>'賴彥伸',
-            'picture'         => 'https://scontent.xx.fbcdn.net/hprofile-xaf1/v/t1.0-1/c0.12.50.50/p50x50/406774_343552225655639_746615155_n.jpg?oh=72c295dceb9d0f25858a4e11db84532e&oe=56EDDC5B',
-            'token'           =>'CAAI9eKdjJYEBAKF62JJZAn5YlWJcWKOPmX01hZBt1BG3wspOgWR8t62rQlne0aZB2udYA13fOWOKQmIbSZCB90jtOA6hpt4hYOS0op9ozrAPk47QZBi1JBBNPEmvRd8XnsRS5BlUT6BkBxuVGBGZBlssvKh4VIGhxqYYXItANAG6xxQPUEgT1c',
+            'picture'         =>'https://scontent.xx.fbcdn.net/hprofile-xaf1/v/t1.0-1/c0.12.50.50/p50x50/406774_343552225655639_746615155_n.jpg?oh=72c295dceb9d0f25858a4e11db84532e&oe=56EDDC5B',
+            'token'           =>'CAAI9eKdjJYEBAHsWm7HPMFf6tTHuB1zMMyMkroEPQAOJMegY93p2dVuobhpmNlBGBTVaXLidluxvRfBFOnj8E4bGDsKpjqH6hGKHQZBwzPXYJm2bZA3ZBPiB08vx9sbZC8g18XaqGHTU7kreInYQRJc5GOBLyqcJGH00eGuWoQ4VS8NhrDzWdXzIL0YkCGmGuhnXvhfdzg7razSaD3uZB',
             'ExpiresAt'       =>null,
             'isExpired'       =>null,
             'isLongLived'     =>false,
